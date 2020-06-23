@@ -15,7 +15,8 @@ class Produtos(models.Model):
     Nome = models.CharField(max_length=128)
     Categoriateste = models.ForeignKey(Categorias ,on_delete=models.CASCADE, default=0)
     Descrição = models.CharField(max_length=1024)
-    Fotos = models.ImageField(upload_to='static/produtos/fotos/')
+    Fotos = models.ImageField(upload_to='loja/static/produtos/fotos/')
+    Fotos_2 = models.ImageField(upload_to='loja/static/produtos/fotos/')
     Preço = models.DecimalField(max_digits=10, decimal_places=2)
     Disponivel = models.CharField(max_length=8,choices=disponivel_escolha, default='Sim')
 

@@ -37,10 +37,26 @@
                         {% for produto in produtos %}
                         <li>
                             <div class="prod">
-                                <img src="../{{produto.Fotos}}" alt="produto" class="produto_foto"/>
-                                <h2 class="produto_titulo">{{prduto.Nome}}</h2>
-                                <div class="produto_preço"></div>
-                                botaocompra
+                                {% if cat == None %}
+                                <img src="../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto"/>
+                                <img src="../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" style="position: absolute;" class="produto_foto"/>
+                                {% else %}
+                                <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto"/>
+                                <img src="../../{{produto.Fotos_2.url|slice:'5:'}}" style="position: absolute;" alt="produto" class="produto_foto"/>
+                                {% endif %}
+                                <div class="produto_texto">
+                                    <h2 class="produto_titulo">{{produto.Nome}}</h2>
+                                    <h3 class="produto_desc">{{produto.Descrição}}</h3>
+                                    <div class="produto_preço">R${{produto.Preço}}</div>
+                                    <a class="comprar">
+                                        <span id="before">
+                                            <img src="{% static '/images/shop-branco.png' %}" alt="Carrinho" class="compras">
+                                        </span>
+                                        <span class="botao_comprar">
+                                            COMPRAR
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
                         </li>
                         {% endfor %}

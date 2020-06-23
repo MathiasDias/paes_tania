@@ -28,7 +28,7 @@
 
 body {
     font-family: lato,sans-serif;
-    background-color: black;
+    background-color: #094F57;
 }
 
 .botao_login {
@@ -436,13 +436,15 @@ a.local_item:hover {
 .prod {
     display: inline-block;
     position: relative;
-    border-right: 1px solid #ED6908;
-    border-bottom: 1px solid #ED6908;
+    border: 1px solid #ED6908;
+    border-radius: 8px;
     width: 25%;
     height: 350px;
     padding: 20px 5px;
     list-style: none;
     float: left;
+    margin: 0 5px 10px 5px;
+    background-color: #fcfcfc;
 }
 
 li {
@@ -452,4 +454,79 @@ li {
 .produto_foto {
     width: 197px;
     height: 140px;
+}
+
+.produto_texto {
+    padding: 0 15px;
+}
+
+.produto_preço {
+    font-size: 26px;
+    color:#ED6908;
+    font-family: Swis721_B;
+}
+
+.produto_titulo {
+    margin: 15px 0;
+    color: #094F57;
+    line-height: 1.5rem;
+    font-family: Swis721;
+    overflow: hidden;
+    font-size: 22px;
+    letter-spacing: .3px;
+    text-align: left;
+}
+
+.produto_desc {
+    color:#454545;
+    text-align: left;
+    font-size: 12px;
+    margin-bottom: 0;
+    line-height: 118%;
+    min-height: 35px;
+    max-height: 56px;
+    text-transform: uppercase;
+}
+
+.comprar {
+    background-color: #ED6908;
+    height: 38px;
+    margin-top: 12px;
+    border-radius: 4px;
+    font-size: 22px;
+    color: #fff;
+    font-family: Swis721_B;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 26%;
+    display: flex;
+    height: 100%;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    background: #000;
+    -webkit-box-align:center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.compras {
+    width: 22px;
+    height: 26px;
+}
+
+.botao_comprar {
+    padding-top: 5px;
+    padding-left: 50px;
+    color: white;
 }
