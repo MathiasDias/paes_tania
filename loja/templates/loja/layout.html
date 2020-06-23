@@ -1,0 +1,146 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'styles.css' %}"/>
+            <title>{% block title %}Massaroca{% endblock %}</title>
+    </head>
+    <body>
+    <div class="pagina">
+        <nav class="nav">
+            <div class="logo">
+                Logo
+            </div>
+            <div class="qs">
+                Quem somos
+            </div>
+            <img src="{% static '/images/shop-cart.png' %}" alt="Carrinho" class="cart">
+            <div class="user">
+                {% if log == True %}
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle logado" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ username.first_name }} {{ username.last_name }} {{ username.email }}</button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Meus pedidos</a>
+                            <a class="dropdown-item" href="{% url 'perfil' %}">Meu Perfil</a>
+                            <a class="dropdown-item" href="{% url 'logout1' %}">Logout <img src="{% static '/images/logout.png' %}" alt="Logout" class="logout"></a>
+                        </div>
+                </div>
+                {% else %}
+                <button id="login" class="btn botao_login">Entrar/Cadastre-se</button>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="bg-modal">
+            <div class="modal-content">
+                <div class="close close2">
+                    +
+                </div>
+                <div class="log">
+                    Login
+                </div>
+                <div class="reg">
+                    Registrar-se
+                </div>
+                    <form action="{% url 'logingin' %}" method="post">
+                        {% csrf_token %}
+                        <br>
+                        <h2>Login:</h2>
+                        <input class="login" name="username" placeholder="Usuário" type="text"/>
+                        <input class="login" name="password" placeholder="Senha" type="password"/>
+                        <input class="btn botao_login" type="submit" value="Login"/>
+                    </form>
+                    <form action="{% url 'forgot' %}" method='post'>
+                        {% csrf_token %}
+                        <input class="btn botao_login" type="submit" value="Esqueci minha senha"/>
+                    </form>
+            </div>
+        </div>
+
+        <div class="bg-modal_2">
+            <div class="modal-content_2">
+                <div class="close close2">
+                    +
+                </div>
+                <div class="log">
+                    Login
+                </div>
+                <div class="reg reg2">
+                    Registrar-se
+                </div>
+                <form action="{% url 'registering' %}" method="post">
+                    {% csrf_token %}
+                    <br>
+                    <h2>Registre-se:</h2>
+                    <input class="register" name="firstn" placeholder="Nome" type="text"/>
+                    <input class="register" name="lastn" placeholder="Sobrenome" type="text"/>
+                    <input class="register" name="email" placeholder="Email" type="email"/>
+                    <input class="register" name="username" placeholder="Usuário" type="text"/>
+                    <input class="register" name="password" placeholder="Senha" type="password"/>
+                    <input class="register" class="btn botao_login" type="submit" value="Registrar"/>
+                </form>
+            </div>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show alerta" style="display:{{status}};" role="alert">
+          <strong>Usuário e/ou senha errados!</strong> Verifique seus dados ou aperte em "Esqueci minha senha."
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show alerta" style="display:{{status4}};" role="alert">
+          <strong>Não foi possível criar sua conta!</strong> Verifique se você utilizou informações válidas e tente novamente.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show alerta" style="display:{{status5}};" role="alert">
+          <strong>Uma conta com este Usuário e/ou email já existe!</strong> Tente novamente com outros.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="alert alert-success alert-dismissible fade show alerta" style="display:{{status6}};" role="alert">
+          <strong>Conta ativada com sucesso!</strong> Aproveite nossa loja!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="alert alert-success alert-dismissible fade show alerta" style="display:{{status2}};" role="alert">
+          <strong>Sua conta foi criada com sucesso!</strong> Verifique seu email e confirme sua conta!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="alert alert-dark alert-dismissible fade show alerta" style="display:{{status3}};" role="alert">
+          <strong>Você saiu de sua conta!</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="body">
+        {% block body %}
+        {% endblock %}
+        </div>
+        <div class="barinf">
+            <div class="baritem">
+                Logo
+            </div>
+            <div class="baritem">
+                Email
+            </div>
+            <div class="baritem">
+                <img src="{% static '/images/instagram.png' %}" alt="Instagram" class="redebar">
+                <img src="{% static '/images/facebook.png' %}" alt="Facebook" class="redebar">
+                <img src="{% static '/images/linkedin.png' %}" alt="LinkedIn" class="redebar">
+            </div>
+        </div>
+        <script src="{% static 'javascript.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </div>
+    </body>
+</html>

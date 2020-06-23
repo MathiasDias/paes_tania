@@ -1,0 +1,63 @@
+{% extends "loja/layout.html" %}
+{% load static %}
+{% block title %}
+    Loja Massaroca
+{% endblock %}
+
+{% block body %}
+    <div class="pre blocos" style="min-height:0;">
+        <ul class="local">
+            <li><a class="local_item" href="{% url 'index' %}"><strong>massaroca.com.br</strong></a></li>
+            {% if cat == None %}
+            {% else %}
+            <li class="local_item"><strong>{{ cat }}</strong></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="blocos">
+        <div class="principal">
+            <div class="ferramentas">
+                <div class="titulo">
+                    {% if cat == None %}
+                    Loja
+                    {% else %}
+                    {{ cat }}
+                    {% endif %}
+                </div>
+                <div class="ordenar">
+                    <select id="ordem" class="escolher-ordem" data-role="sorter">
+                        <option value="nome" selected="selected">Nome</option>
+                        <option value="preço_menor">Menor preço</option>
+                        <option value="preço_maior">Maior preço</option>
+                    </select>
+                </div>
+            </div>
+                <div class="conteudo">
+                    <div class="produtos">
+                        {% for produto in produtos %}
+                        <li>
+                            <div class="prod">
+                                <img src="../{{produto.Fotos}}" alt="produto" class="produto_foto"/>
+                                <h2 class="produto_titulo">{{prduto.Nome}}</h2>
+                                <div class="produto_preço"></div>
+                                botaocompra
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        <div class="barracategoria">
+                <div class="categorias">
+                    <ol>
+                        <li class="item" style="cursor: auto; border-right:4px solid #ED6908; border-bottom: 1px solid #b55107;"><strong>CATEGORIAS</strong></li>
+                        {% for categoria in categorias %}
+                        <li class="item">
+                            <a class="redir" href="{% url 'categoria' categoria %}">{{ categoria }}</a>
+                        </li>
+                        {% endfor %}
+                    </ol>
+            </div>
+        </div>
+    </div>
+{% endblock %}

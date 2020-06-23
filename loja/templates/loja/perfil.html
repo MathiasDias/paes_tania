@@ -1,0 +1,31 @@
+{% extends "loja/layout.html" %}
+{% load static %}
+{% block title %}
+    Perfil Massaroca
+{% endblock %}
+
+{% block body %}
+    <h1>Dados do Cadastro:</h1>
+<div class="perfil">
+    <div class="perfil">
+        <strong>Nome:</strong>
+        <br>{{username.first_name}}
+    </div>
+    <div class="right perfil">
+        <strong>Sobrenome:</strong>
+        <br>{{username.last_name}}
+    </div>
+    <div class="perfil">
+        <strong>Email:</strong>
+        <br>{{username.email}}
+    </div>
+    <div class="right perfil">
+        <strong>Endereços:<strong>
+        <br>-------
+    </div>
+    <div class="perfil">
+        <strong>Métodos de pagamento:<strong>
+        <br>--------
+    </div>
+</div>
+{% endblock %}
