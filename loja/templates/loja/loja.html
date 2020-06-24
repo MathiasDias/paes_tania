@@ -25,10 +25,10 @@
                     {% endif %}
                 </div>
                 <div class="ordenar">
-                    <select id="ordem" class="escolher-ordem" data-role="sorter">
-                        <option value="nome" selected="selected">Nome</option>
-                        <option value="preço_menor">Menor preço</option>
-                        <option value="preço_maior">Maior preço</option>
+                    <select id="ordem" onchange="location = this.value;" class="escolher-ordem" data-role="sorter">
+                        <option value="{% url 'loja_ordem' 'Nome' %}">Nome</option>
+                        <option value="{% url 'loja_ordem' 'Preço' %}">Menor preço</option>
+                        <option value="{% url 'loja_ordem' '-Preço' %}">Maior preço</option>
                     </select>
                 </div>
             </div>
@@ -38,17 +38,17 @@
                         <li>
                             <div class="prod">
                                 {% if cat == None %}
-                                <img src="../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto"/>
-                                <img src="../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" style="position: absolute;" class="produto_foto"/>
+                                <img src="../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto_top"/>
+                                <img src="../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" class="produto_foto_bottom"/>
                                 {% else %}
-                                <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto"/>
-                                <img src="../../{{produto.Fotos_2.url|slice:'5:'}}" style="position: absolute;" alt="produto" class="produto_foto"/>
+                                <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto_top"/>
+                                <img src="../../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" class="produto_foto_bottom"/>
                                 {% endif %}
                                 <div class="produto_texto">
-                                    <h2 class="produto_titulo">{{produto.Nome}}</h2>
+                                    <h2 class="produto_titulo"><a class="redir_item" href="{% url 'produto' produto.id %}">{{produto.Nome}}</a></h2>
                                     <h3 class="produto_desc">{{produto.Descrição}}</h3>
                                     <div class="produto_preço">R${{produto.Preço}}</div>
-                                    <a class="comprar">
+                                    <a href="{% url 'produto' produto.id %}" class="comprar">
                                         <span id="before">
                                             <img src="{% static '/images/shop-branco.png' %}" alt="Carrinho" class="compras">
                                         </span>

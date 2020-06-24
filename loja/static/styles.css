@@ -341,6 +341,20 @@ li.item {
     font-weight: bold;
 }
 
+.redir_item {
+    text-decoration: none;
+    color: #094F57;
+}
+
+.redir_item:hover {
+    text-decoration: none;
+}
+
+.comprar:hover {
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
 .barracategoria {
     width: 20%;
     margin-right: 10px;
@@ -444,16 +458,36 @@ a.local_item:hover {
     list-style: none;
     float: left;
     margin: 0 5px 10px 5px;
-    background-color: #fcfcfc;
+}
+
+.prod:hover {
+    background-color: #F9F9F9;
+    border-color: #b55107;
 }
 
 li {
     list-style: none;
 }
 
-.produto_foto {
+.produto_foto_top {
     width: 197px;
     height: 140px;
+    position: relative;
+    z-index: 2;
+    transition: opacity 0.3s;
+}
+
+.produto_foto_top:hover {
+    opacity: 0;
+}
+
+.produto_foto_bottom {
+    position: absolute;
+    width: 197px;
+    height: 140px;
+    right: 5px;
+    top: 20px;
+
 }
 
 .produto_texto {

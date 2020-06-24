@@ -158,9 +158,10 @@ def loja_produto(request, produto_id):
     }
     return render(request, "loja/produto.html", context)
 
-def loja_principal(request):
+def loja_principal(request, ordem="Nome"):
     try:
-        produtos = Produtos.objects.all()
+        print(ordem)
+        produtos = Produtos.objects.order_by(ordem)
         categorias = Categorias.objects.all()
     except KeyError:
         return render(request, "loja/erro.html")
