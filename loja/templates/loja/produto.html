@@ -1,9 +1,20 @@
 {% extends "loja/layout.html" %}
 {% load static %}
 {% block title %}
-    Loja Massaroca
+    {{produto.Nome}}
 {% endblock %}
 
 {% block body %}
-{{ produto }}
+<div class="pre blocos" style="min-height:0;">
+    <ul class="local">
+        <li><a class="local_item" href="{% url 'index' %}"><strong>massaroca.com.br</strong></a></li>
+        <li><a class="local_item" href="{% url 'categoria' produto.Categoriateste %}"><strong>{{ produto.Categoriateste }}</strong></a></li>
+        <li class="local_item"><strong>{{ produto.Nome }}</strong></li>
+    </ul>
+</div>
+<div class="blocos">
+    <div class="foto-slider">
+        <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="foto_produto"/>
+    </div>
+</div>
 {% endblock %}
