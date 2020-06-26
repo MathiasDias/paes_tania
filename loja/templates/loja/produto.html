@@ -26,7 +26,11 @@
             Comprar por R${{ produto.Preço }}
         </div>
         <div class="botao-produto">
-            .
+        {% if produto.Disponivel == "Sim" %}
+            <button type="button" title="Adicionar ao carrinho" class="botao-compra">COMPRAR<span class="span">Adicionar ao carrinho</span><span class="car"><img src="{% static '/images/shop-branco.png' %}" class="compras_2" /></span></button>
+        {% else %}
+            <span class="indisponivel_2">INDISPONÍVEL</span>
+        {% endif %}
         </div>
     </div>
     <div class="bloco-foto">

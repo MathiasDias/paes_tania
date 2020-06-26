@@ -48,6 +48,7 @@
                                     <h2 class="produto_titulo"><a class="redir_item" href="{% url 'produto' produto.id %}">{{produto.Nome}}</a></h2>
                                     <h3 class="produto_desc">{{produto.Descrição}}</h3>
                                     <div class="produto_preço">R${{produto.Preço}}</div>
+                                {% if produto.Disponivel == "Sim" %}
                                     <a href="{% url 'produto' produto.id %}" class="comprar">
                                         <span id="before">
                                             <img src="{% static '/images/shop-branco.png' %}" alt="Carrinho" class="compras">
@@ -56,6 +57,9 @@
                                             COMPRAR
                                         </span>
                                     </a>
+                                {% else %}
+                                <span class="indisponivel">INDISPONÍVEL</span>
+                                {% endif %}
                                 </div>
                             </div>
                         </li>
