@@ -13,8 +13,39 @@
     </ul>
 </div>
 <div class="blocos">
-    <div class="foto-slider">
-        <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="foto_produto"/>
+    <div class="info-produto">
+        <div class="titulo-produto">
+            {{ produto.Nome }}
+        </div>
+        <div class="descriçao-produto">
+            {{ produto.Descrição }}
+        </div>
+        <div class="preço-produto">
+            <img src="{% static '/images/cartao.png' %}" alt="Cartao" class="cartao">
+            <span>
+            Comprar por R${{ produto.Preço }}
+        </div>
+        <div class="botao-produto">
+            .
+        </div>
+    </div>
+    <div class="bloco-foto">
+        <div class="foto-slider">
+            <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="foto_produto"/>
+        </div>
+        <div class="foto-slider">
+            <img src="../../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" class="foto_produto"/>
+        </div>
+        <div class="fotos_thumb">
+            <div class="div_fotos">
+                <div class="thumb_fotos">
+                    <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="thumbnail" onclick="currentSlide(1)"/>
+                </div>
+                <div class="thumb_fotos">
+                    <img src="../../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" class="thumbnail" onclick="currentSlide(2)"/>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
