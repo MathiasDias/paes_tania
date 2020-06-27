@@ -759,3 +759,54 @@ li {
     text-decoration: none;
     padding: 4px;
 }
+
+.carrinho {
+    overflow: hidden;
+    padding-top: 20px;
+}
+
+.titulo_carrinho {
+    width: 300px;
+    text-align: left;
+    padding: 8px 15px;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #ccc;
+    border-bottom: 0;
+    float: left;
+}
+
+.produto_carrinho {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 0 8px 8px 8px;
+    font-family: Swis721;
+    font-size: 18px;
+    color: #333;
+    overflow: hidden;
+    float: left;
+    clear: both;
+    width: 900px;
+}
+
+.botao_loja {
+    height: 38px;
+    border-radius: 4px;
+    font-size: 22px;
+    color: white;
+    font-weight: 700;
+    background-color: #00a200 ;
+    font-family: Swis721;
+    display: inline-grid;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    width: 160px;
+}
+
+.voltar_loja:hover {
+    text-decoration: none;
+    color: white;
+
+}

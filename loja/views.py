@@ -206,9 +206,15 @@ def add_carrinho(request, produto_id):
         return render(request, "loja/erro.html")
     except Produtos.DoesNotExist:
         return render(request, "loja/erro.html")
+    return HttpResponseRedirect(reverse("carrinho"))
+
+def view_cart(request):
+    try:
+        cart = request.session["carrinho"]
+    except KeyError:
+        request.session["carrinho"] = []
     try:
         cart_2 = request.session["carrinho"]
-
         items = Produtos.objects.filter(id__in=cart_2)
     except KeyError:
         return render(request, "loja/erro.html")

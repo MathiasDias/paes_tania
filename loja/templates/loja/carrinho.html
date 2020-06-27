@@ -6,8 +6,20 @@
 
 {% block body %}
     <div class="blocos">
-        {% for produto in produtos %}
-        <li> {{ produto.Nome }}</li>
-        {% endfor %}
+        <div class="titulo" style="height:35px;">CARRINHO</div>
+        <div class="carrinho">
+            <div class="titulo_carrinho">
+                ITENS NO CARRINHO
+            </div>
+            <div>
+            {% for produto in produtos %}
+            <div class="produto_carrinho"> {{ produto.Nome }}</div>
+            {% empty %}
+            <div class="produto_carrinho">Você ainda não adicionou nenhum item!
+                <a href="{% url 'loja' %}" class="voltar_loja"><span class="botao_loja">Voltar para loja</span></a>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}
