@@ -1,0 +1,13 @@
+{% extends "loja/layout.html" %}
+{% load static %}
+{% block title %}
+    Loja Massaroca
+{% endblock %}
+
+{% block body %}
+    <div class="blocos">
+        {% for produto in produtos %}
+        <li> {{ produto.Nome }}</li>
+        {% endfor %}
+    </div>
+{% endblock %}

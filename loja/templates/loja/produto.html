@@ -27,7 +27,7 @@
         </div>
         <div class="botao-produto">
         {% if produto.Disponivel == "Sim" %}
-            <button type="button" title="Adicionar ao carrinho" class="botao-compra">COMPRAR<span class="span">Adicionar ao carrinho</span><span class="car"><img src="{% static '/images/shop-branco.png' %}" class="compras_2" /></span></button>
+            <a href="{% url 'add_carrinho' produto.id %}"><button type="button" title="Adicionar ao carrinho" class="botao-compra">COMPRAR<span class="span">Adicionar ao carrinho</span><span class="car"><img src="{% static '/images/shop-branco.png' %}" class="compras_2" /></span></button></a>
         {% else %}
             <span class="indisponivel_2">INDISPONÍVEL</span>
         {% endif %}

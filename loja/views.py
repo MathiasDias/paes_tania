@@ -160,7 +160,6 @@ def loja_produto(request, produto_id):
 
 def loja_principal(request, ordem="Nome"):
     try:
-        print(ordem)
         produtos = Produtos.objects.order_by(ordem)
         categorias = Categorias.objects.all()
     except KeyError:
@@ -192,3 +191,30 @@ def loja_categoria(request, categoria):
         "username": request.user
     }
     return render(request, "loja/loja.html", context)
+
+def add_carrinho(request, produto_id):
+    try:
+        cart = request.session["carrinho"]
+    except KeyError:
+        request.session["carrinho"] = []
+    try:
+        produto = Produtos.objects.get(pk=produto_id)
+        cart = request.session["carrinho"]
+        cart.append(produto_id)
+        request.session["carrinho"] = cart
+    except KeyError:
+        return render(request, "loja/erro.html")
+    except Produtos.DoesNotExist:
+        return render(request, "loja/erro.html")
+    try:
+        cart_2 = request.session["carrinho"]
+
+        items = Produtos.objects.filter(id__in=cart_2)
+    except KeyError:
+        return render(request, "loja/erro.html")
+    context = {
+        "produtos": items,
+        "log": request.user.is_authenticated,
+        "username": request.user
+    }
+    return render(request, "loja/carrinho.html", context)
