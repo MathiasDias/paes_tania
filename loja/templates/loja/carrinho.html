@@ -6,14 +6,29 @@
 
 {% block body %}
     <div class="blocos">
-        <div class="titulo" style="height:35px;">CARRINHO</div>
         <div class="carrinho">
             <div class="titulo_carrinho">
                 ITENS NO CARRINHO
             </div>
             <div>
             {% for produto in produtos %}
-            <div class="produto_carrinho"> {{ produto.Nome }}</div>
+            <div class="produto_carrinho">
+                <div class="carrinho_desc">
+                    <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="foto_carrinho"/>
+                </div>
+                <div class="carrinho_desc">
+                    <div class="center_2">{{ produto.Nome }}</div>
+                </div>
+                <div class="carrinho_desc">
+                    <div class="center_2">{{ produto.Descrição }}</div>
+                </div>
+                <div class="carrinho_desc">
+                    <div class="center_2">Quantidade</div>
+                </div>
+                <div class="carrinho_desc" style="border:0;">
+                    <div class="center_2">R${{ produto.Preço }}</div>
+                </div>
+            </div>
             {% empty %}
             <div class="produto_carrinho">Você ainda não adicionou nenhum item!
                 <a href="{% url 'loja' %}" class="voltar_loja"><span class="botao_loja">Voltar para loja</span></a>
