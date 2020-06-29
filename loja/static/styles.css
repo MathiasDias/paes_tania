@@ -778,14 +778,14 @@ li {
 .produto_carrinho {
     padding: 15px 0;
     border: 1px solid #ccc;
-    border-radius: 0 8px 8px 8px;
+    border-radius: 0 8px 0 0;
     font-family: Swis721;
     font-size: 18px;
     color: #333;
     overflow: hidden;
     float: left;
     clear: both;
-    width: 900px;
+    width: 1050px;
 }
 
 .botao_loja {
@@ -835,4 +835,44 @@ li {
   position: relative;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.subtotal {
+    width: 300px;
+    text-align: left;
+    padding: 8px 15px;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid #ccc;
+    border-top: 0;
+    float: right;
+}
+
+.limpar_carrinho {
+    color: rgb(194, 194, 194);
+    background-color: rgb(245, 245, 245);
+    float:right;
+    border-radius: 3px;
+    border-color: white;
+}
+
+.quant_but {
+    width: 19px;
+    border: 0;
+    background-color: #ED6908;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.rot {
+    transform: rotate(90deg);
+}
+
+.quant {
+    border:.5px solid #e6e4e4;
+    width: 100px;
+}
+
+.quantidade {
+    display: inline-flex;
 }

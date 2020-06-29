@@ -10,8 +10,10 @@
             <div class="titulo_carrinho">
                 ITENS NO CARRINHO
             </div>
-            <div>
-            {% for produto in produtos %}
+            <div class="limpar_carrinho">
+                <a href="{% url 'limpar_carrinho' %}"><button>REMOVER TODOS PRODUTOS</button></a>
+            </div>
+            {% for produto, quantidade in produtos %}
             <div class="produto_carrinho">
                 <div class="carrinho_desc">
                     <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="foto_carrinho"/>
@@ -23,7 +25,14 @@
                     <div class="center_2">{{ produto.Descrição }}</div>
                 </div>
                 <div class="carrinho_desc">
-                    <div class="center_2">Quantidade</div>
+                    <div class="center_2">
+                        Quantidade
+                        <div class="quantidade">
+                            <a href="{% url 'rem_quantidade' produto.id %}"><button class="quant_but"><div class="rot">></div></button></a>
+                            <div class="quant">{{quantidade}}</div>
+                            <a href="{% url 'add_quantidade' produto.id %}"><button class="quant_but"><div class="rot"><</div></button></a>
+                        </div>
+                    </div>
                 </div>
                 <div class="carrinho_desc" style="border:0;">
                     <div class="center_2">R${{ produto.Preço }}</div>
@@ -34,7 +43,10 @@
                 <a href="{% url 'loja' %}" class="voltar_loja"><span class="botao_loja">Voltar para loja</span></a>
             </div>
             {% endfor %}
+            <div class="subtotal">
+                VALOR TOTAL: RS{{ total }}
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}

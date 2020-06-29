@@ -197,10 +197,18 @@ def add_carrinho(request, produto_id):
         cart = request.session["carrinho"]
     except KeyError:
         request.session["carrinho"] = []
+        request.session["quantidades"] = []
+        request.session["total"] = 0.00
     try:
         produto = Produtos.objects.get(pk=produto_id)
         cart = request.session["carrinho"]
+        quantidade = request.session["quantidades"]
+        total = request.session["total"]
         cart.append(produto_id)
+        quantidade.append(1)
+        total = total + float(produto.Preço)
+        request.session["total"] = total
+        request.session["quantidades"] = quantidade
         request.session["carrinho"] = cart
     except KeyError:
         return render(request, "loja/erro.html")
@@ -215,12 +223,72 @@ def view_cart(request):
         request.session["carrinho"] = []
     try:
         cart_2 = request.session["carrinho"]
-        items = Produtos.objects.filter(id__in=cart_2)
+        total = request.session["total"]
+        produtos = Produtos.objects.filter(id__in=cart_2)
+        quantidades = request.session["quantidades"]
+        itemsequantidade = zip(produtos, quantidades)
     except KeyError:
         return render(request, "loja/erro.html")
     context = {
-        "produtos": items,
+        "produtos": itemsequantidade,
+        "total": total,
         "log": request.user.is_authenticated,
         "username": request.user
     }
     return render(request, "loja/carrinho.html", context)
+
+def rem_carrinho(request, produto_id, quantidade=1):
+    try:
+        cart = request.session["carrinho"]
+        position = cart.index(produto_id)
+        del cart[position]
+        request.session["carrinho"] = cart
+        produto = Produtos.objects.get(pk=produto_id)
+        total = request.session["total"]
+        total = total - (quantidade * float(produto.Preço))
+        request.session["total"] = total
+    except KeyError:
+        return render(request, "loja/erro.html")
+    return HttpResponseRedirect(reverse("carrinho"))
+
+def rem_quantidade(request, produto_id):
+    try:
+        cart = request.session["carrinho"]
+        position = cart.index(produto_id)
+        quantidades = request.session["quantidades"]
+        if int(quantidades[position]) > 1:
+            quantidades[position] = quantidades[position] - 1
+            request.session["quantidades"] = quantidades
+            produto = Produtos.objects.get(pk=produto_id)
+            total = request.session["total"]
+            total = total - float(produto.Preço)
+            request.session["total"] = total
+        else:
+            rem_carrinho(request, produto_id)
+    except KeyError:
+        return render(request, "loja/erro.html")
+    return HttpResponseRedirect(reverse("carrinho"))
+
+def add_quantidade(request, produto_id):
+    try:
+        cart = request.session["carrinho"]
+        position = cart.index(produto_id)
+        quantidades = request.session["quantidades"]
+        quantidades[position] = quantidades[position] + 1
+        request.session["quantidades"] = quantidades
+        produto = Produtos.objects.get(pk=produto_id)
+        total = request.session["total"]
+        total = total + float(produto.Preço)
+        request.session["total"] = total
+    except KeyError:
+        return render(request, "loja/erro.html")
+    return HttpResponseRedirect(reverse("carrinho"))
+
+def clear_cart(request):
+    try:
+        request.session["carrinho"] = []
+        request.session["quantidades"] = []
+        request.session["total"] = 0.00
+    except KeyError:
+        return render(request, "loja/erro.html")
+    return HttpResponseRedirect(reverse("carrinho"))
