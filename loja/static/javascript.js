@@ -2,9 +2,6 @@ document.querySelector('.logo').addEventListener('click', function(){
     window.location.replace("http://127.0.0.1:8000/");
 });
 
-document.querySelector('.qs').addEventListener('click', function(){
-    window.location.replace("http://127.0.0.1:8000/quemsomos");
-});
 
 if (document.querySelector('#login') != null) {
 document.querySelector("#login").addEventListener('click', function(){

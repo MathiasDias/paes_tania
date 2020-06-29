@@ -218,17 +218,16 @@ def add_carrinho(request, produto_id):
 
 def view_cart(request):
     try:
-        cart = request.session["carrinho"]
-    except KeyError:
-        request.session["carrinho"] = []
-    try:
         cart_2 = request.session["carrinho"]
         total = request.session["total"]
         produtos = Produtos.objects.filter(id__in=cart_2)
         quantidades = request.session["quantidades"]
         itemsequantidade = zip(produtos, quantidades)
     except KeyError:
-        return render(request, "loja/erro.html")
+        request.session["carrinho"] = []
+        request.session["total"] = 0.0
+        request.session["quantidades"] = []
+        return HttpResponseRedirect(reverse("carrinho"))
     context = {
         "produtos": itemsequantidade,
         "total": total,

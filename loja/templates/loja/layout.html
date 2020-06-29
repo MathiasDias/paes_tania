@@ -15,10 +15,12 @@
             <div class="logo">
                 Logo
             </div>
-            <div class="qs">
-                Quem somos
+            <div class="procura">
+                <form>
+                    <input class="pesquisa" id="procura" placeholder="Procurar..." type="text"/>
+                </form>
             </div>
-            <img src="{% static '/images/shop-cart.png' %}" alt="Carrinho" class="cart">
+            <a href="{% url 'carrinho' %}"><img src="{% static '/images/shop-cart.png' %}" alt="Carrinho" class="cart"></a>
             <div class="user">
                 {% if log == True %}
                 <div class="dropdown">

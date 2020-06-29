@@ -5,27 +5,33 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Dados do Cadastro:</h1>
-<div class="perfil">
-    <div class="perfil">
-        <strong>Nome:</strong>
-        <br>{{username.first_name}}
-    </div>
-    <div class="right perfil">
-        <strong>Sobrenome:</strong>
-        <br>{{username.last_name}}
-    </div>
-    <div class="perfil">
-        <strong>Email:</strong>
-        <br>{{username.email}}
-    </div>
-    <div class="right perfil">
-        <strong>Endereços:<strong>
-        <br>-------
-    </div>
-    <div class="perfil">
-        <strong>Métodos de pagamento:<strong>
-        <br>--------
+<div class="blocos" style="flex-direction: column;">
+    <div class="align">
+        <div class="bloco_titulo">
+            <div class="titulo_perfil">Dados da Conta:</div>
+        </div>
+        <div class="perfil_info">
+            <div class="perfil">
+                <strong class="laranja">Nome:</strong>
+                <br>{{username.first_name}}
+            </div>
+            <div class="right perfil">
+                <strong class="laranja">Sobrenome:</strong>
+                <br>{{username.last_name}}
+            </div>
+            <div class="perfil">
+                <strong class="laranja">Email:</strong>
+                <br>{{username.email}}
+            </div>
+            <div class="right perfil">
+                <strong class="laranja">Endereços:</strong>
+                <br>-------
+            </div>
+            <div class="perfil">
+                <strong class="laranja">Métodos de pagamento:</strong>
+                <br>--------
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
