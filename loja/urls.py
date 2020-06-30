@@ -14,6 +14,7 @@ urlpatterns = [
     path("loja/carrinho", views.view_cart, name="carrinho"),
     path("loja/carrinho/limpar", views.clear_cart, name="limpar_carrinho"),
     path("loja/", views.loja_principal, name="loja"),
+    path("pedido/finalizar", views.place_order, name="finalizar_pedido"),
     path("loja/procurar/", views.pesquisa, name="pesquisa"),
     path("loja/carrinho/add/<int:produto_id>", views.add_quantidade, name="add_quantidade"),
     path("loja/carrinho/rem/<int:produto_id>", views.rem_quantidade, name="rem_quantidade"),

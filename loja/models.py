@@ -22,3 +22,20 @@ class Produtos(models.Model):
 
     def __str__(self):
         return f'{self.Nome} | {self.Categoriateste} | {self.Preço} | Disponível: {self.Disponivel}'
+
+class Pedidos(models.Model):
+    status_escolha = [
+    ('Pedido Feito','Pedido Feito'),
+    ('Pagamento Aprovado','Pagamento Aprovado'),
+    ('Em transporte','Em transporte'),
+    ('Entregue','Entregue'),
+    ]
+    Nome_do_cliente = models.CharField(max_length=128)
+    Items = models.ManyToManyField(Produtos, blank=True, related_name="pedido")
+    Preço_total = models.DecimalField(max_digits=10, decimal_places=2)
+    Cpf_cliente = models.CharField(max_length=16)
+    Endereço_cliente = models.CharField(max_length=512)
+    Status = models.CharField(max_length=32, choices=status_escolha, default='Pedido Feito')
+
+    def __str__(self):
+        return f'Pedido ({self.id}) | CPF: {self.Cpf_cliente} | Total: {self.Preço_total} | Status: {self.Status}'
