@@ -23,6 +23,9 @@
                     {% else %}
                     {{ cat }}
                     {% endif %}
+                    <div class="resultados">
+                        ({{num}} resultado(s) encontrado(s))
+                    </div>
                 </div>
                 <div class="ordenar">
                     <select id="ordem" onchange="location = this.value;" class="escolher-ordem" data-role="sorter">
@@ -71,6 +74,9 @@
                 <div class="categorias">
                     <ol>
                         <li class="item" style="cursor: auto; border-right:4px solid #ED6908; border-bottom: 1px solid #b55107;"><strong>CATEGORIAS</strong></li>
+                        <li class="item">
+                            <a class="redir" href="{% url 'loja' %}">TODAS</a>
+                        </li>
                         {% for categoria in categorias %}
                         <li class="item">
                             <a class="redir" href="{% url 'categoria' categoria %}">{{ categoria }}</a>

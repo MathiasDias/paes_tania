@@ -161,12 +161,14 @@ def loja_produto(request, produto_id):
 def loja_principal(request, ordem="Nome"):
     try:
         produtos = Produtos.objects.order_by(ordem)
+        num = Produtos.objects.order_by(ordem).count()
         categorias = Categorias.objects.all()
     except KeyError:
         return render(request, "loja/erro.html")
     context = {
         "produtos": produtos,
         "categorias": categorias,
+        "num": num,
         "log": request.user.is_authenticated,
         "username": request.user
     }
@@ -176,6 +178,7 @@ def loja_categoria(request, categoria):
     try:
         categoria_id = Categorias.objects.get(Nome=categoria).id
         produtos = Produtos.objects.filter(Categoriateste=categoria_id)
+        num = Produtos.objects.filter(Categoriateste=categoria_id).count()
         categorias = Categorias.objects.all()
     except KeyError:
         return render(request, "loja/erro.html")
@@ -186,6 +189,7 @@ def loja_categoria(request, categoria):
     context = {
         "produtos": produtos,
         "cat": categoria,
+        "num": num,
         "categorias": categorias,
         "log": request.user.is_authenticated,
         "username": request.user
@@ -291,3 +295,23 @@ def clear_cart(request):
     except KeyError:
         return render(request, "loja/erro.html")
     return HttpResponseRedirect(reverse("carrinho"))
+
+def pesquisa(request):
+    try:
+        pesquisa = request.POST["pesquisa"]
+        produtos = Produtos.objects.filter(Nome__icontains=pesquisa)
+        num = Produtos.objects.filter(Nome__icontains=pesquisa).count()
+        categorias = Categorias.objects.all()
+    except KeyError:
+        return render(request, "loja/erro.html")
+    except TypeError:
+        return render(request, "loja/erro.html")
+    context = {
+        "produtos": produtos,
+        "cat": pesquisa,
+        "num": num,
+        "categorias": categorias,
+        "log": request.user.is_authenticated,
+        "username": request.user
+    }
+    return render(request, "loja/loja.html", context)

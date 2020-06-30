@@ -16,8 +16,10 @@
                 Logo
             </div>
             <div class="procura">
-                <form>
-                    <input class="pesquisa" id="procura" placeholder="Procurar..." type="text"/>
+                <form action="{% url 'pesquisa' %}" method="post">
+                {% csrf_token %}
+                    <input class="pesquisa" name="pesquisa" placeholder="Procurar..." type="text"/>
+                    <input type="image"src="{% static '/images/pesquisa.png' %}" alt="Pesquisar" class="botao_pesquisa">
                 </form>
             </div>
             <a href="{% url 'carrinho' %}"><img src="{% static '/images/shop-cart.png' %}" alt="Carrinho" class="cart"></a>
