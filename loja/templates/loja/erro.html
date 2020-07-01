@@ -5,5 +5,10 @@
 {% endblock %}
 
 {% block body %}
-<h1>Erro></h1>
+<div class="blocos" style="flex-flow: column;">
+    <div class="erro">
+        <strong>Ops... Parece que acorreu um erro.</strong><a class="redir" href="{% url 'loja' %}">Voltar para loja</a>
+        <img src="{% static 'images/robo-erro.png' %}" style="width:60px;">
+    </div>
+</div>
 {% endblock %}

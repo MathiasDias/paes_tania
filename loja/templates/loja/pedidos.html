@@ -1,0 +1,31 @@
+{% extends "loja/layout.html" %}
+{% load static %}
+{% block title %}
+    Meus Pedidos
+{% endblock %}
+
+{% block body %}
+<div class="blocos" style="flex-direction: column;">
+    <div class="titulo_pedidos align">
+        <div class="titulo_perfil">Seus Pedidos</div>
+    </div>
+    {% for pedido in pedidos %}
+    <div class="align">
+        <div class="bloco_titulo">
+            <div class="titulo_perfil">Pedido #{{pedido.id}}</div>
+        </div>
+        <div class="pedido_info">
+            <div class="pedido_coluna">
+                Itenss
+            </div>
+            <div class="pedido_coluna">
+                Endereço
+            </div>
+            <div class="pedido_coluna">
+                Status
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

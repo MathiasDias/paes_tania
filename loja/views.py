@@ -9,7 +9,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
-from .models import Categorias, Produtos, Pedidos
+from .models import Categorias, Produtos, Pedidos, UserProfile
 
 def index(request):
     try:
@@ -70,6 +70,7 @@ def auth_registering(request):
     password = request.POST["password"]
     firstn = request.POST["firstn"]
     lastn = request.POST["lastn"]
+    cpf = request.POST["cpf"]
     to_email = request.POST["email"]
     if User.objects.filter(username=username).exists():
         request.session['status5'] = 'flex'
@@ -81,6 +82,8 @@ def auth_registering(request):
         user2 = User.objects.create_user(username=username, email=to_email, password=password, first_name=firstn, last_name=lastn)
         user2.is_active = False
         user2.save()
+        user3 = UserProfile.objects.create(user=user2, cpf=cpf)
+        user3.save()
         current_site = get_current_site(request)
         mail_subject = 'Ative sua conta Paes.'
         message = render_to_string('acc_active_email.html', {
@@ -134,6 +137,18 @@ def my_profile(request):
             "username": request.user
         }
         return render(request, "loja/perfil.html", context)
+    else:
+        return HttpResponseRedirect(reverse("index"))
+
+def my_orders(request):
+    if request.user.is_authenticated:
+        pedidos = Pedidos.objects.filter(Cpf_cliente=request.user.userprofile.cpf)
+        context = {
+            "log": request.user.is_authenticated,
+            "pedidos": pedidos,
+            "username": request.user
+        }
+        return render(request, "loja/pedidos.html", context)
     else:
         return HttpResponseRedirect(reverse("index"))
 

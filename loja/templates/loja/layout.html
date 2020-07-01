@@ -28,7 +28,7 @@
                 <div class="dropdown">
                     <button class="btn dropdown-toggle logado" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ username.first_name }} {{ username.last_name }} {{ username.email }}</button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Meus pedidos</a>
+                            <a class="dropdown-item" href="{% url 'pedidos' %}">Meus pedidos</a>
                             <a class="dropdown-item" href="{% url 'perfil' %}">Meu Perfil</a>
                             <a class="dropdown-item" href="{% url 'logout1' %}">Logout <img src="{% static '/images/logout.png' %}" alt="Logout" class="logout"></a>
                         </div>
@@ -83,6 +83,7 @@
                     <input class="register" name="lastn" placeholder="Sobrenome" type="text"/>
                     <input class="register" name="email" placeholder="Email" type="email"/>
                     <input class="register" name="username" placeholder="Usuário" type="text"/>
+                    <input class="register" name="cpf" placeholder="CPF" type="text"/>
                     <input class="register" name="password" placeholder="Senha" type="password"/>
                     <input class="register" class="btn botao_login" type="submit" value="Registrar"/>
                 </form>

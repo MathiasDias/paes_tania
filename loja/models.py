@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 class Categorias(models.Model):
@@ -39,3 +41,7 @@ class Pedidos(models.Model):
 
     def __str__(self):
         return f'Pedido ({self.id}) | CPF: {self.Cpf_cliente} | Total: {self.Preço_total} | Status: {self.Status}'
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    cpf = models.CharField(max_length=16)
