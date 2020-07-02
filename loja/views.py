@@ -337,11 +337,13 @@ def place_order(request):
         total = request.session["total"]
         produtos_2 = Produtos.objects.filter(id__in=produtos_ids)
         quantidades = request.session["quantidades"]
-        nome = "Mathias Dias"
-        cpf = "511.167.948.02"
+        nome = request.user.first_name + " " + request.user.last_name
+        cpf = request.user.userprofile.cpf
         endereço = "Rua Alcides de Godoy, 325"
-        pedido = Pedidos.objects.create(Nome_do_cliente=nome, Preço_total=total, Cpf_cliente=cpf, Endereço_cliente=endereço, Status='Pedido Feito')
+        pedido = Pedidos.objects.create(Nome_do_cliente=nome, Quantidades=quantidades, Preço_total=total, Cpf_cliente=cpf, Endereço_cliente=endereço, Status='Pedido Feito')
         pedido.Items.add(*produtos_2)
     except KeyError:
         return render(request, "loja/erro.html")
+    request.session["total"] = []
+    request.session["quantidades"] = []
     return HttpResponseRedirect(reverse("index"))
