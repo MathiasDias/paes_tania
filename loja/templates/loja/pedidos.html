@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-<div class="blocos" style="flex-direction: column;">
-    <div class="titulo_pedidos align">
+<div class="blocos" style="flex-direction: column; justify-content: flex-start;">
+    <div class="titulo_pedidos">
         <div class="titulo_perfil">Seus Pedidos</div>
     </div>
     {% for pedido in pedidos %}
@@ -16,13 +16,38 @@
         </div>
         <div class="pedido_info">
             <div class="pedido_coluna">
-                Itenss
+                Produtos Comprados:
+                {% for item in pedido.Items.all  %}
+                <li class="laranja">{{item.Nome}}: R$ {{item.Preço}}</li>
+                {% endfor %}
+                <li class="total"><strong>Total: R$ {{pedido.Preço_total}}</strong></li>
             </div>
             <div class="pedido_coluna">
-                Endereço
+                Endereço de entrega:
+                <li class="laranja">{{pedido.Endereço_cliente}}</li>
             </div>
             <div class="pedido_coluna">
-                Status
+                {% if pedido.Status == "Pedido Feito" %}
+                <li class="status checked">Pedido Feito</li>
+                <li class="status">Pagamento Aprovado</li>
+                <li class="status">Em transporte</li>
+                <li class="status">Entregue</li>
+                {% elif pedido.Status == "Pagamento Aprovado" %}
+                <li class="status checked">Pedido Feito</li>
+                <li class="status checked">Pagamento Aprovado</li>
+                <li class="status">Em transporte</li>
+                <li class="status">Entregue</li>
+                {% elif pedido.Status == "Em transporte" %}
+                <li class="status checked">Pedido Feito</li>
+                <li class="status checked">Pagamento Aprovado</li>
+                <li class="status checked">Em transporte</li>
+                <li class="status">Entregue</li>
+                {% elif pedido.Status == "Entregue" %}
+                <li class="status checked">Pedido Feito</li>
+                <li class="status checked">Pagamento Aprovado</li>
+                <li class="status checked">Em transporte</li>
+                <li class="status checked">Entregue</li>
+                {% endif %}
             </div>
         </div>
     </div>

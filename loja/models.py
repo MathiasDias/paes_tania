@@ -34,6 +34,7 @@ class Pedidos(models.Model):
     ]
     Nome_do_cliente = models.CharField(max_length=128)
     Items = models.ManyToManyField(Produtos, blank=True, related_name="pedido")
+    Quantidades = ArrayField(models.CharField(max_length=512))
     Preço_total = models.DecimalField(max_digits=10, decimal_places=2)
     Cpf_cliente = models.CharField(max_length=16)
     Endereço_cliente = models.CharField(max_length=512)
