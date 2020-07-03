@@ -171,7 +171,6 @@ body {
 
 .modal-content, .modal-content_2 {
     width: 500px;
-    height: 300px;
     background-image: linear-gradient(to top, white 87%, lightgrey 87%);
     border-radius: 5px;
     text-align: center;
@@ -181,7 +180,6 @@ body {
 
 .modal-content_2 {
     background-image: linear-gradient(to top, white 90%, lightgrey 90%);
-    height: 400px;
 }
 
 .close2 {
@@ -199,7 +197,7 @@ body {
 
 .log , .reg {
     position: absolute;
-    top: 7px;
+    top: 3.5%;
     display: inline-block;
     font-size: 17px;
     cursor: pointer;

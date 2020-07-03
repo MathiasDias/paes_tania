@@ -53,8 +53,8 @@
                         {% csrf_token %}
                         <br>
                         <h2>Login:</h2>
-                        <input class="login" name="username" placeholder="Usuário" type="text"/>
-                        <input class="login" name="password" placeholder="Senha" type="password"/>
+                        <input class="login form-control" name="username" placeholder="Usuário" type="text"/>
+                        <input class="login form-control" name="password" placeholder="Senha" type="password"/>
                         <input class="btn botao_login" type="submit" value="Login"/>
                     </form>
                     <form action="{% url 'forgot' %}" method='post'>
@@ -78,19 +78,26 @@
                 <form action="{% url 'registering' %}" method="post">
                     {% csrf_token %}
                     <br>
-                    <h2>Registre-se:</h2>
-                    <input class="register" name="firstn" placeholder="Nome" type="text"/>
-                    <input class="register" name="lastn" placeholder="Sobrenome" type="text"/>
-                    <input class="register" name="email" placeholder="Email" type="email"/>
-                    <input class="register" name="username" placeholder="Usuário" type="text"/>
-                    <input class="register" name="cpf" placeholder="CPF" type="text"/>
-                    <input class="register" name="password" placeholder="Senha" type="password"/>
-                    <input class="register" class="btn botao_login" type="submit" value="Registrar"/>
+                    <h2 style="margin-top:15px;">Registre-se:</h2>
+                    <input class="register form-control" name="firstn" placeholder="Nome" type="text" required/>
+                    <input class="register form-control" name="lastn" placeholder="Sobrenome" type="text" required/>
+                    <input class="register form-control" name="email" placeholder="Email" type="email" required/>
+                    <input class="register form-control" name="username" placeholder="Usuário" type="text" required/>
+                    <input class="register form-control" minlength="15" maxlength="15" name="celular" placeholder="Celular" type="text" onkeypress="$(this).mask('(00) 0000-00000')" required/>
+                    <input class="register form-control" minlength="14" maxlength="14" name="cpf" placeholder="CPF" type="text" onkeypress="$(this).mask('000.000.000-00');" required/>
+                    <input class="register form-control" minlength="6" name="password" placeholder="Senha" type="password" required/>
+                    <input class="register form-control" class="btn botao_login" type="submit" value="Registrar" required/>
                 </form>
             </div>
         </div>
         <div class="alert alert-danger alert-dismissible fade show alerta" style="display:{{status}};" role="alert">
           <strong>Usuário e/ou senha errados!</strong> Verifique seus dados ou aperte em "Esqueci minha senha."
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show alerta" style="display:{{status7}};" role="alert">
+          <strong>É preciso estar registrado e logado para fazer isso!</strong> Aperte no botão "Entrar/Cadastre-se" no canto superior direito."
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -102,13 +109,19 @@
           </button>
         </div>
         <div class="alert alert-danger alert-dismissible fade show alerta" style="display:{{status5}};" role="alert">
-          <strong>Uma conta com este Usuário e/ou email já existe!</strong> Tente novamente com outros.
+          <strong>Uma conta com este Usuário e/ou email já existe!</strong> Tente novamente com outros dados.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="alert alert-success alert-dismissible fade show alerta" style="display:{{status6}};" role="alert">
           <strong>Conta ativada com sucesso!</strong> Aproveite nossa loja!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="alert alert-success alert-dismissible fade show alerta" style="display:{{status8}};" role="alert">
+          <strong>Pedido feito com sucesso!</strong> Entre em seus pedidos (canto superior direito) para verificar o progresso!
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -145,6 +158,7 @@
         <script src="{% static 'javascript.js' %}"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </div>
     </body>

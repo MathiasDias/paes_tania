@@ -19,6 +19,8 @@ def status_code(request, status_code):
     request.session['status4'] = 'none'
     request.session['status5'] = 'none'
     request.session['status6'] = 'none'
+    request.session['status7'] = 'none'
+    request.session['status8'] = 'none'
     if status_code == 0:
         request.session['status'] = 'flex'
     elif status_code == 1:
@@ -31,6 +33,10 @@ def status_code(request, status_code):
         request.session['status5'] = 'flex'
     elif status_code == 5:
         request.session['status6'] = 'flex'
+    elif status_code == 6:
+        request.session['status7'] = 'flex'
+    elif status_code == 7:
+        request.session['status8'] = 'flex'
 
 def final_status(request):
     try:
@@ -57,6 +63,14 @@ def final_status(request):
         status6 = request.session['status6']
     except KeyError:
         request.session['status6'] = 'none'
+    try:
+        status7 = request.session['status7']
+    except KeyError:
+        request.session['status7'] = 'none'
+    try:
+        status8 = request.session['status8']
+    except KeyError:
+        request.session['status8'] = 'none'
     context = {
         "status": request.session['status'],
         "status2": request.session['status2'],
@@ -64,6 +78,8 @@ def final_status(request):
         "status4": request.session['status4'],
         "status5": request.session['status5'],
         "status6": request.session['status6'],
+        "status7": request.session['status7'],
+        "status8": request.session['status8'],
     }
     return context
 
@@ -74,6 +90,8 @@ def clear_status(request):
     request.session['status4'] = 'none'
     request.session['status5'] = 'none'
     request.session['status6'] = 'none'
+    request.session['status7'] = 'none'
+    request.session['status8'] = 'none'
 
 def index(request):
     context = {
@@ -102,6 +120,7 @@ def auth_registering(request):
     firstn = request.POST["firstn"]
     lastn = request.POST["lastn"]
     cpf = request.POST["cpf"]
+    celular = request.POST["celular"]
     to_email = request.POST["email"]
     if User.objects.filter(username=username).exists():
         status_code(request, 4)
@@ -113,7 +132,7 @@ def auth_registering(request):
         user2 = User.objects.create_user(username=username, email=to_email, password=password, first_name=firstn, last_name=lastn)
         user2.is_active = False
         user2.save()
-        user3 = UserProfile.objects.create(user=user2, cpf=cpf)
+        user3 = UserProfile.objects.create(user=user2, cpf=cpf, celular=celular)
         user3.save()
         current_site = get_current_site(request)
         mail_subject = 'Ative sua conta Paes.'
@@ -172,6 +191,7 @@ def my_profile(request):
         clear_status(request)
         return render(request, "loja/perfil.html", context)
     else:
+        status_code(request, 6)
         return HttpResponseRedirect(reverse("index"))
 
 def my_orders(request):
@@ -187,6 +207,7 @@ def my_orders(request):
         clear_status(request)
         return render(request, "loja/pedidos.html", context)
     else:
+        status_code(request, 6)
         return HttpResponseRedirect(reverse("index"))
 
 def quemsomos(request):
@@ -391,23 +412,28 @@ def pesquisa(request):
     return render(request, "loja/loja.html", context)
 
 def place_order(request):
-    try:
-        produtos_ids = request.session["carrinho"]
-        total = request.session["total"]
-        produtos_2 = Produtos.objects.filter(id__in=produtos_ids)
-        quantidades = str(request.session["quantidades"])
-        quantidades2 = quantidades.replace(" ", "")
-        quantidades3 = quantidades2.replace(",", "")
-        quantidades4 = quantidades3.replace("[", "")
-        quantidades5 = quantidades4.replace("]", "")
-        print(quantidades5)
-        nome = request.user.first_name + " " + request.user.last_name
-        cpf = request.user.userprofile.cpf
-        endereço = "Rua Alcides de Godoy, 325"
-        pedido = Pedidos.objects.create(Nome_do_cliente=nome, Quantidades=quantidades5, Preço_total=total, Cpf_cliente=cpf, Endereço_cliente=endereço, Status='Pedido Feito')
-        pedido.Items.add(*produtos_2)
-    except KeyError:
-        return render(request, "loja/erro.html")
-    request.session["total"] = []
-    request.session["quantidades"] = []
-    return HttpResponseRedirect(reverse("index"))
+    if request.user.is_authenticated:
+        try:
+            produtos_ids = request.session["carrinho"]
+            total = request.session["total"]
+            produtos_2 = Produtos.objects.filter(id__in=produtos_ids)
+            quantidades = str(request.session["quantidades"])
+            quantidades2 = quantidades.replace(" ", "")
+            quantidades3 = quantidades2.replace(",", "")
+            quantidades4 = quantidades3.replace("[", "")
+            quantidades5 = quantidades4.replace("]", "")
+            print(quantidades5)
+            nome = request.user.first_name + " " + request.user.last_name
+            cpf = request.user.userprofile.cpf
+            endereço = "Rua Alcides de Godoy, 325"
+            pedido = Pedidos.objects.create(Nome_do_cliente=nome, Quantidades=quantidades5, Preço_total=total, Cpf_cliente=cpf, Endereço_cliente=endereço, Status='Pedido Feito')
+            pedido.Items.add(*produtos_2)
+        except KeyError:
+            return render(request, "loja/erro.html")
+        request.session["total"] = []
+        request.session["quantidades"] = []
+        status_code(request, 7)
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        status_code(request, 6)
+        return HttpResponseRedirect(reverse("carrinho"))

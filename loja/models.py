@@ -46,3 +46,4 @@ class Pedidos(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cpf = models.CharField(max_length=16)
+    celular = models.CharField(max_length=16, null=True)
