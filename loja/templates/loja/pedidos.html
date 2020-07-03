@@ -10,7 +10,7 @@
         <div class="titulo_perfil">Seus Pedidos</div>
     </div>
     {% for pedido in pedidos %}
-    <div class="align">
+    <div class="pedidos">
         <div class="bloco_titulo">
             <div class="titulo_perfil">Pedido #{{pedido.id}}</div>
         </div>
@@ -19,7 +19,7 @@
                 Produtos Comprados:
                 {% for item in pedido.Items.all  %}{% for quantidade in pedido.Quantidades %}
                     {% if forloop.counter0 == forloop.parentloop.counter0 %}
-                <li class="laranja">{{item.Nome}}: R$ {{item.Preço}} x {{quantidade}}</li>
+                <li class="laranja">{{item.Nome}}: R$ {{item.Preço}} x {{quantidade}} unidades</li>
                     {% endif %}
                 {% endfor %}{% endfor %}
                 <li class="total"><strong>Total: R$ {{pedido.Preço_total}}</strong></li>

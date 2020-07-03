@@ -10,48 +10,79 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from .models import Categorias, Produtos, Pedidos, UserProfile
+from django.urls import resolve
 
-def index(request):
-    try:
-        status = request.session['status']
-    except KeyError:
-        status = 'none'
-    try:
-        status2 = request.session['status2']
-    except KeyError:
-        status2 = 'none'
-    try:
-        status3 = request.session['status3']
-    except KeyError:
-        status3 = 'none'
-    try:
-        status4 = request.session['status4']
-    except KeyError:
-        status4 = 'none'
-    try:
-        status5 = request.session['status5']
-    except KeyError:
-        status5 = 'none'
-    try:
-        status6 = request.session['status6']
-    except KeyError:
-        status6 = 'none'
-    context = {
-    "status": status,
-    "status2": status2,
-    "status3": status3,
-    "status4": status4,
-    "status5": status5,
-    "status6": status6,
-    "log": request.user.is_authenticated,
-    "username": request.user
-    }
+def status_code(request, status_code):
     request.session['status'] = 'none'
     request.session['status2'] = 'none'
     request.session['status3'] = 'none'
     request.session['status4'] = 'none'
     request.session['status5'] = 'none'
     request.session['status6'] = 'none'
+    if status_code == 0:
+        request.session['status'] = 'flex'
+    elif status_code == 1:
+        request.session['status2'] = 'flex'
+    elif status_code == 2:
+        request.session['status3'] = 'flex'
+    elif status_code == 3:
+        request.session['status4'] = 'flex'
+    elif status_code == 4:
+        request.session['status5'] = 'flex'
+    elif status_code == 5:
+        request.session['status6'] = 'flex'
+
+def final_status(request):
+    try:
+        status = request.session['status']
+    except KeyError:
+        request.session['status'] = 'none'
+    try:
+        status2 = request.session['status2']
+    except KeyError:
+        request.session['status2'] = 'none'
+    try:
+        status3 = request.session['status3']
+    except KeyError:
+        request.session['status3'] = 'none'
+    try:
+        status4 = request.session['status4']
+    except KeyError:
+        request.session['status4'] = 'none'
+    try:
+        status5 = request.session['status5']
+    except KeyError:
+        request.session['status5'] = 'none'
+    try:
+        status6 = request.session['status6']
+    except KeyError:
+        request.session['status6'] = 'none'
+    context = {
+        "status": request.session['status'],
+        "status2": request.session['status2'],
+        "status3": request.session['status3'],
+        "status4": request.session['status4'],
+        "status5": request.session['status5'],
+        "status6": request.session['status6'],
+    }
+    return context
+
+def clear_status(request):
+    request.session['status'] = 'none'
+    request.session['status2'] = 'none'
+    request.session['status3'] = 'none'
+    request.session['status4'] = 'none'
+    request.session['status5'] = 'none'
+    request.session['status6'] = 'none'
+
+def index(request):
+    context = {
+    "log": request.user.is_authenticated,
+    "username": request.user
+    }
+    final_status2 = final_status(request)
+    context.update(final_status2)
+    clear_status(request)
     return render(request, "loja/index.html", context)
 
 def auth_logingin(request):
@@ -60,10 +91,10 @@ def auth_logingin(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
-        request.session['status'] = 'flex'
-        return HttpResponseRedirect(reverse("index"))
+        status_code(request, 0)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def auth_registering(request):
     username = request.POST["username"]
@@ -73,11 +104,11 @@ def auth_registering(request):
     cpf = request.POST["cpf"]
     to_email = request.POST["email"]
     if User.objects.filter(username=username).exists():
-        request.session['status5'] = 'flex'
-        return HttpResponseRedirect(reverse("index"))
+        status_code(request, 4)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     if User.objects.filter(email=to_email).exists():
-        request.session['status5'] = 'flex'
-        return HttpResponseRedirect(reverse("index"))
+        status_code(request, 4)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     try:
         user2 = User.objects.create_user(username=username, email=to_email, password=password, first_name=firstn, last_name=lastn)
         user2.is_active = False
@@ -96,15 +127,15 @@ def auth_registering(request):
             mail_subject, message, to=[to_email]
         )
         email.send()
-        request.session['status2'] = 'flex'
-        return HttpResponseRedirect(reverse("index"))
+        status_code(request, 1)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     except ValueError:
-        request.session['status4'] = 'flex'
-        return HttpResponseRedirect(reverse("index"))
+        status_code(request, 3)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     except KeyError:
-        request.session['status4'] = 'flex'
-        return HttpResponseRedirect(reverse("index"))
-    return HttpResponseRedirect(reverse("index"))
+        status_code(request, 3)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def activate(request, uidb64, token):
     try:
@@ -116,17 +147,17 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        request.session['status6'] = 'flex'
-        return HttpResponseRedirect(reverse("index"))
+        status_code(request, 5)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
-        request.session['status4'] = 'flex'
-        return HttpResponseRedirect(reverse("index"))
+        status_code(request, 3)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def auth_logout(request):
     if request.user.is_authenticated:
         logout(request)
-        request.session['status3'] = 'flex'
-        return HttpResponseRedirect(reverse("index"))
+        status_code(request, 2)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         return HttpResponseRedirect(reverse("index"))
 
@@ -136,6 +167,9 @@ def my_profile(request):
             "log": request.user.is_authenticated,
             "username": request.user
         }
+        final_status2 = final_status(request)
+        context.update(final_status2)
+        clear_status(request)
         return render(request, "loja/perfil.html", context)
     else:
         return HttpResponseRedirect(reverse("index"))
@@ -148,6 +182,9 @@ def my_orders(request):
             "pedidos": pedidos,
             "username": request.user
         }
+        final_status2 = final_status(request)
+        context.update(final_status2)
+        clear_status(request)
         return render(request, "loja/pedidos.html", context)
     else:
         return HttpResponseRedirect(reverse("index"))
@@ -157,6 +194,9 @@ def quemsomos(request):
         "log": request.user.is_authenticated,
         "username": request.user
     }
+    final_status2 = final_status(request)
+    context.update(final_status2)
+    clear_status(request)
     return render(request, "loja/quem_somos.html", context)
 
 def loja_produto(request, produto_id):
@@ -171,6 +211,9 @@ def loja_produto(request, produto_id):
         "log": request.user.is_authenticated,
         "username": request.user
     }
+    final_status2 = final_status(request)
+    context.update(final_status2)
+    clear_status(request)
     return render(request, "loja/produto.html", context)
 
 def loja_principal(request, ordem="Nome"):
@@ -187,6 +230,9 @@ def loja_principal(request, ordem="Nome"):
         "log": request.user.is_authenticated,
         "username": request.user
     }
+    final_status2 = final_status(request)
+    context.update(final_status2)
+    clear_status(request)
     return render(request, "loja/loja.html", context)
 
 def loja_categoria(request, categoria):
@@ -209,6 +255,9 @@ def loja_categoria(request, categoria):
         "log": request.user.is_authenticated,
         "username": request.user
     }
+    final_status2 = final_status(request)
+    context.update(final_status2)
+    clear_status(request)
     return render(request, "loja/loja.html", context)
 
 def add_carrinho(request, produto_id):
@@ -253,6 +302,9 @@ def view_cart(request):
         "log": request.user.is_authenticated,
         "username": request.user
     }
+    final_status2 = final_status(request)
+    context.update(final_status2)
+    clear_status(request)
     return render(request, "loja/carrinho.html", context)
 
 def rem_carrinho(request, produto_id, quantidade=1):
@@ -292,12 +344,13 @@ def add_quantidade(request, produto_id):
         cart = request.session["carrinho"]
         position = cart.index(produto_id)
         quantidades = request.session["quantidades"]
-        quantidades[position] = quantidades[position] + 1
-        request.session["quantidades"] = quantidades
-        produto = Produtos.objects.get(pk=produto_id)
-        total = request.session["total"]
-        total = total + float(produto.Preço)
-        request.session["total"] = total
+        if quantidades[position] < 9:
+            quantidades[position] = quantidades[position] + 1
+            request.session["quantidades"] = quantidades
+            produto = Produtos.objects.get(pk=produto_id)
+            total = request.session["total"]
+            total = total + float(produto.Preço)
+            request.session["total"] = total
     except KeyError:
         return render(request, "loja/erro.html")
     return HttpResponseRedirect(reverse("carrinho"))
@@ -314,6 +367,9 @@ def clear_cart(request):
 def pesquisa(request):
     try:
         pesquisa = request.POST["pesquisa"]
+    except KeyError:
+        pesquisa = ""
+    try:
         produtos = Produtos.objects.filter(Nome__icontains=pesquisa)
         num = Produtos.objects.filter(Nome__icontains=pesquisa).count()
         categorias = Categorias.objects.all()
@@ -329,6 +385,9 @@ def pesquisa(request):
         "log": request.user.is_authenticated,
         "username": request.user
     }
+    final_status2 = final_status(request)
+    context.update(final_status2)
+    clear_status(request)
     return render(request, "loja/loja.html", context)
 
 def place_order(request):
@@ -336,11 +395,16 @@ def place_order(request):
         produtos_ids = request.session["carrinho"]
         total = request.session["total"]
         produtos_2 = Produtos.objects.filter(id__in=produtos_ids)
-        quantidades = request.session["quantidades"]
+        quantidades = str(request.session["quantidades"])
+        quantidades2 = quantidades.replace(" ", "")
+        quantidades3 = quantidades2.replace(",", "")
+        quantidades4 = quantidades3.replace("[", "")
+        quantidades5 = quantidades4.replace("]", "")
+        print(quantidades5)
         nome = request.user.first_name + " " + request.user.last_name
         cpf = request.user.userprofile.cpf
         endereço = "Rua Alcides de Godoy, 325"
-        pedido = Pedidos.objects.create(Nome_do_cliente=nome, Quantidades=quantidades, Preço_total=total, Cpf_cliente=cpf, Endereço_cliente=endereço, Status='Pedido Feito')
+        pedido = Pedidos.objects.create(Nome_do_cliente=nome, Quantidades=quantidades5, Preço_total=total, Cpf_cliente=cpf, Endereço_cliente=endereço, Status='Pedido Feito')
         pedido.Items.add(*produtos_2)
     except KeyError:
         return render(request, "loja/erro.html")

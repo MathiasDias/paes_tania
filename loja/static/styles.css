@@ -959,6 +959,11 @@ li {
     margin-top: 10px;
 }
 
+.pedidos {
+    margin-top: 20px;
+    align-self: center;
+}
+
 .pedido_coluna {
     min-height: 60px;
     width: 32%;
