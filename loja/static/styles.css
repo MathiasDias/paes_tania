@@ -1005,3 +1005,15 @@ li {
     color: #ED6908 !important;
     opacity: 0;
 }
+
+.itens_preço {
+    display: flex;
+    flex-flow: row;
+    width: 410px;
+}
+
+.preços {
+    flex-flow: row;
+    width: 50%;
+    float: right;
+}

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="blocos">
+    <div class="blocos"  style="flex-direction: column; justify-content: flex-start;">
         <div class="carrinho">
             <div class="titulo_carrinho">
                 ITENS NO CARRINHO
@@ -39,16 +39,54 @@
                 </div>
             </div>
             {% empty %}
-            <div class="produto_carrinho">Você ainda não adicionou nenhum item!
+            <div class="produto_carrinho" style="padding-left:10px;">Você ainda não adicionou nenhum item!
                 <a href="{% url 'loja' %}" class="voltar_loja"><span class="botao_loja">Voltar para loja</span></a>
             </div>
             {% endfor %}
             <div class="subtotal">
-                VALOR TOTAL: RS{{ total }}
+                VALOR DOS PRODUTOS: RS{{ total }}
             </div>
 
             <a href="{% url 'finalizar_pedido' %}">Finalizar Pedido!</a>
         </div>
-    </div>
+        <div class="preços">
+            <div class="bloco_titulo">
+                <div class="titulo_perfil">
+                    PREÇO
+                </div>
+            </div>
+                <div class="itens_preço">
+                    <div>
+                        Preço dos produtos
+                    </div>
+                    <div>
+                        R$ {{total}}
+                    </div>
+                </div>
+                <div class="itens_preço">
+                    <div>
+                        Preço dos produtos
+                    </div>
+                    <div>
+                        R$ {{total}}
+                    </div>
+                </div>
+                <div class="itens_preço">
+                    <div>
+                        Preço dos produtos
+                    </div>
+                    <div>
+                        R$ {{total}}
+                    </div>
+                </div>
+                <div class="itens_preço">
+                    <div>
+                        Preço dos produtos
+                    </div>
+                    <div>
+                        R$ {{total}}
+                    </div>
+                </div>
+        </div>
     </div>
 {% endblock %}
