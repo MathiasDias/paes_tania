@@ -307,10 +307,22 @@ def add_carrinho(request, produto_id):
 
 def view_cart(request):
     try:
+        frete = request.session["frete"]
+    except KeyError:
+        request.session["frete"] = 0
+    try:
+        desconto = request.session["desconto"]
+    except KeyError:
+        request.session["desconto"] = 0
+    try:
         cart_2 = request.session["carrinho"]
         total = request.session["total"]
         produtos = Produtos.objects.filter(id__in=cart_2)
         quantidades = request.session["quantidades"]
+        frete = request.session["frete"]
+        desconto = request.session["desconto"]
+        valor_desconto = (total * (desconto * 0.01))
+        total_final = total + frete - valor_desconto
         itemsequantidade = zip(produtos, quantidades)
     except KeyError:
         request.session["carrinho"] = []
@@ -319,7 +331,11 @@ def view_cart(request):
         return HttpResponseRedirect(reverse("carrinho"))
     context = {
         "produtos": itemsequantidade,
-        "total": total,
+        "total_produtos": total,
+        "desconto": desconto,
+        "valor_desconto": valor_desconto,
+        "frete": frete,
+        "total_final": total_final,
         "log": request.user.is_authenticated,
         "username": request.user
     }

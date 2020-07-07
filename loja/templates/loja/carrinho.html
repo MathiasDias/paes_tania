@@ -44,49 +44,80 @@
             </div>
             {% endfor %}
             <div class="subtotal">
-                VALOR DOS PRODUTOS: RS{{ total }}
+                VALOR DOS PRODUTOS: RS{{ total_produtos }}
             </div>
 
             <a href="{% url 'finalizar_pedido' %}">Finalizar Pedido!</a>
         </div>
+        <div class="post_itens">
         <div class="preços">
-            <div class="bloco_titulo">
+            <div class="bloco_preços">
                 <div class="titulo_perfil">
                     PREÇO
                 </div>
             </div>
-                <div class="itens_preço">
-                    <div>
-                        Preço dos produtos
+                <div class="info_preço">
+                    <div class="itens_preço">
+                        <div class="preço_left">
+                            Preço dos produtos
+                        </div>
+                        <div class="preço_right">
+                            R$ {{total_produtos}}
+                        </div>
                     </div>
-                    <div>
-                        R$ {{total}}
+                    <div class="itens_preço">
+                        <div class="preço_left">
+                            Frete
+                        </div>
+                        <div class="preço_right">
+                            R$ {{frete}}
+                        </div>
+                    </div>
+                    <div class="itens_preço">
+                        <div class="preço_left">
+                            {% if desconto == 0 %}
+                            Desconto cupom
+                            {% else %}
+                            Desconto cupom ({{desconto}}%)
+                            {% endif %}
+                        </div>
+                        <div class="preço_right">
+                            -R$ {{valor_desconto}}
+                        </div>
+                    </div>
+                    <div class="itens_preço">
+                        <div class="preço_left preço_final">
+                            PREÇO TOTAL
+                        </div>
+                        <div class="preço_right preço_final">
+                            R$ {{total_final}}
+                        </div>
                     </div>
                 </div>
-                <div class="itens_preço">
-                    <div>
-                        Preço dos produtos
-                    </div>
-                    <div>
-                        R$ {{total}}
-                    </div>
+        </div>
+        <div class="forms">
+            <div class="bloco_preços">
+                <div class="titulo_perfil">
+                    CUPOM DE DESCONTO
                 </div>
-                <div class="itens_preço">
-                    <div>
-                        Preço dos produtos
-                    </div>
-                    <div>
-                        R$ {{total}}
-                    </div>
+            </div>
+            <div class="cupom">
+                .
+            </div>
+            <div class="bloco_preços">
+                <div class="titulo_perfil">
+                    FRETE
                 </div>
-                <div class="itens_preço">
-                    <div>
-                        Preço dos produtos
-                    </div>
-                    <div>
-                        R$ {{total}}
-                    </div>
-                </div>
+            </div>
+            <div class="frete">
+                <form class="form_frete" action="{% url 'pesquisa' %}" method="post">
+                    {% csrf_token %}
+                    <input class="form_frete" type="text" name="cep" placeholder="Digite seu CEP" minlength="9" maxlength="9" onkeypress="$(this).mask('00000-000')" required>
+                    <input class="form_frete" type="button" value="Procurar" >
+                </form>
+                <span class="obs">OBS: ATUALMENTE SO ESTAMOS ENTREGANDO EM CAMPINAS/SP</span>
+            </div>
+        </div>
         </div>
     </div>
 {% endblock %}
