@@ -47,3 +47,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cpf = models.CharField(max_length=16)
     celular = models.CharField(max_length=16, null=True)
+
+class Descontos(models.Model):
+    Cupom = models.CharField(max_length=128)
+    Porcentagem_desconto = models.IntegerField()
+
+    def __str__(self):
+        return f'Cupom: {self.Cupom} | Desconto: {self.Porcentagem_desconto}%'

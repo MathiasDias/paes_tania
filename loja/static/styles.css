@@ -919,6 +919,16 @@ li {
     border-color: white;
 }
 
+.limpar {
+    background-color: #ED6908;
+    color: white;
+    font-weight: bold;
+    border: 0;
+    border-radius: 3px;
+    height: 35px;
+    width: 260px;
+}
+
 .quant_but {
     width: 19px;
     border: 0;
@@ -1084,24 +1094,35 @@ li {
 }
 
 .cupom {
-    padding: 22px 26px;
+    padding: 20px 26px;
 }
 
 .frete {
     padding: 21px 26px;
+    padding-bottom: 0;
 }
 
 .form_frete {
-    height: 21px;
     padding-top: 0;
     padding-bottom: 0;
-    display: inline-block;
+}
+
+.form_esquerda {
+    width: 50%;
+}
+
+.form_direita {
+    background-color: #ED6908;
+    color: white;
+    font-weight: bold;
+    border: 0;
+    border-radius: 3px;
+    width: 30%;
+    height: 28px;
 }
 
 .obs {
     font-size: 12px;
-    position: relative;
-    top: 22px;
-    left: -8px;
     color: rgb(121, 121, 121);
+    display: block;
 }

@@ -5,13 +5,25 @@
 {% endblock %}
 
 {% block body %}
+<div class="alert alert-danger alert-dismissible fade show alerta" style="display:{{status9}};" role="alert">
+  <strong>O CEP informado não é de Campinas!</strong> Atualmente so estamos trabalhando com entregas municipais.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="alert alert-danger alert-dismissible fade show alerta" style="display:{{status10}};" role="alert">
+  <strong>O cupom informado não é valido!</strong> Fique atento as letras maiúsculas e minúsculas.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
     <div class="blocos"  style="flex-direction: column; justify-content: flex-start;">
         <div class="carrinho">
             <div class="titulo_carrinho">
                 ITENS NO CARRINHO
             </div>
             <div class="limpar_carrinho">
-                <a href="{% url 'limpar_carrinho' %}"><button>REMOVER TODOS PRODUTOS</button></a>
+                <a href="{% url 'limpar_carrinho' %}"><button class="limpar">REMOVER TODOS PRODUTOS</button></a>
             </div>
             {% for produto, quantidade in produtos %}
             <div class="produto_carrinho">
@@ -102,7 +114,11 @@
                 </div>
             </div>
             <div class="cupom">
-                .
+                <form class="form_frete" action="{% url 'cupom' %}" method="post">
+                    {% csrf_token %}
+                    <input class="form_frete form_esquerda" type="text" name="cupom" placeholder="Digite aqui seu cupom" required>
+                    <input class="form_frete form_direita" type="submit" value="Aplicar" >
+                </form>
             </div>
             <div class="bloco_preços">
                 <div class="titulo_perfil">
@@ -110,10 +126,10 @@
                 </div>
             </div>
             <div class="frete">
-                <form class="form_frete" action="{% url 'pesquisa' %}" method="post">
+                <form class="form_frete" action="{% url 'conferir_cep' %}" method="post">
                     {% csrf_token %}
-                    <input class="form_frete" type="text" name="cep" placeholder="Digite seu CEP" minlength="9" maxlength="9" onkeypress="$(this).mask('00000-000')" required>
-                    <input class="form_frete" type="button" value="Procurar" >
+                    <input class="form_frete form_esquerda" type="text" name="cep" placeholder="Digite seu CEP" minlength="9" maxlength="9" onkeypress="$(this).mask('00000-000')" required>
+                    <input class="form_frete form_direita" type="submit" value="Procurar" >
                 </form>
                 <span class="obs">OBS: ATUALMENTE SO ESTAMOS ENTREGANDO EM CAMPINAS/SP</span>
             </div>

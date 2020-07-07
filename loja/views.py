@@ -9,8 +9,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
-from .models import Categorias, Produtos, Pedidos, UserProfile
+from .models import Categorias, Produtos, Pedidos, UserProfile, Descontos
 from django.urls import resolve
+import pycep_correios
+from pycep_correios.excecoes import CEPInvalido, ExcecaoPyCEPCorreios
 
 def status_code(request, status_code):
     request.session['status'] = 'none'
@@ -21,6 +23,8 @@ def status_code(request, status_code):
     request.session['status6'] = 'none'
     request.session['status7'] = 'none'
     request.session['status8'] = 'none'
+    request.session['status9'] = 'none'
+    request.session['status10'] = 'none'
     if status_code == 0:
         request.session['status'] = 'flex'
     elif status_code == 1:
@@ -37,6 +41,10 @@ def status_code(request, status_code):
         request.session['status7'] = 'flex'
     elif status_code == 7:
         request.session['status8'] = 'flex'
+    elif status_code == 8:
+        request.session['status9'] = 'flex'
+    elif status_code == 9:
+        request.session['status10'] = 'flex'
 
 def final_status(request):
     try:
@@ -71,6 +79,14 @@ def final_status(request):
         status8 = request.session['status8']
     except KeyError:
         request.session['status8'] = 'none'
+    try:
+        status9 = request.session['status9']
+    except KeyError:
+        request.session['status9'] = 'none'
+    try:
+        status10 = request.session['status10']
+    except KeyError:
+        request.session['status10'] = 'none'
     context = {
         "status": request.session['status'],
         "status2": request.session['status2'],
@@ -80,6 +96,8 @@ def final_status(request):
         "status6": request.session['status6'],
         "status7": request.session['status7'],
         "status8": request.session['status8'],
+        "status9": request.session['status9'],
+        "status10": request.session['status10'],
     }
     return context
 
@@ -92,6 +110,8 @@ def clear_status(request):
     request.session['status6'] = 'none'
     request.session['status7'] = 'none'
     request.session['status8'] = 'none'
+    request.session['status9'] = 'none'
+    request.session['status10'] = 'none'
 
 def index(request):
     context = {
@@ -323,6 +343,7 @@ def view_cart(request):
         desconto = request.session["desconto"]
         valor_desconto = (total * (desconto * 0.01))
         total_final = total + frete - valor_desconto
+        request.session["total_final"] = total_final
         itemsequantidade = zip(produtos, quantidades)
     except KeyError:
         request.session["carrinho"] = []
@@ -431,7 +452,7 @@ def place_order(request):
     if request.user.is_authenticated:
         try:
             produtos_ids = request.session["carrinho"]
-            total = request.session["total"]
+            total = request.session["total_final"]
             produtos_2 = Produtos.objects.filter(id__in=produtos_ids)
             quantidades = str(request.session["quantidades"])
             quantidades2 = quantidades.replace(" ", "")
@@ -446,10 +467,46 @@ def place_order(request):
             pedido.Items.add(*produtos_2)
         except KeyError:
             return render(request, "loja/erro.html")
-        request.session["total"] = []
+        request.session["total"] = 0.0
+        request.session["carrinho"] = []
         request.session["quantidades"] = []
+        request.session["frete"] = []
+        request.session["total_final"] = []
         status_code(request, 7)
         return HttpResponseRedirect(reverse("index"))
     else:
         status_code(request, 6)
+        return HttpResponseRedirect(reverse("carrinho"))
+
+def cupom_desconto(request):
+    try:
+        cupom = request.POST["cupom"]
+        desconto = Descontos.objects.get(Cupom=cupom)
+    except KeyError:
+        return render(request, "loja/erro.html")
+    except Descontos.DoesNotExist:
+        status_code(request, 9)
+        return HttpResponseRedirect(reverse("carrinho"))
+    request.session["desconto"] = desconto.Porcentagem_desconto
+    return HttpResponseRedirect(reverse("carrinho"))
+
+def check_cep(request):
+    try:
+        cep = request.POST["cep"]
+        cep2 = cep.replace("-","")
+        endereço = pycep_correios.consultar_cep(cep2)
+    except KeyError:
+        return render(request, "loja/erro.html")
+    except TypeError:
+        return render(request, "loja/erro.html")
+    except CEPInvalido:
+        return render(request, "loja/erro.html")
+    except ExcecaoPyCEPCorreios:
+        return render(request, "loja/erro.html")
+    if endereço['cidade'] != 'Campinas':
+        status_code(request, 8)
+        return HttpResponseRedirect(reverse("carrinho"))
+    else:
+        request.session["cep"] = cep2
+        request.session["frete"] = 20
         return HttpResponseRedirect(reverse("carrinho"))
