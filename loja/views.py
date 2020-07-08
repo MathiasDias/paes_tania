@@ -342,6 +342,7 @@ def view_cart(request):
         frete = request.session["frete"]
         desconto = request.session["desconto"]
         valor_desconto = (total * (desconto * 0.01))
+        valor_desconto = round(valor_desconto,2)
         total_final = total + frete - valor_desconto
         request.session["total_final"] = total_final
         itemsequantidade = zip(produtos, quantidades)
@@ -507,6 +508,41 @@ def check_cep(request):
         status_code(request, 8)
         return HttpResponseRedirect(reverse("carrinho"))
     else:
-        request.session["cep"] = cep2
+        request.user.userprofile.cep = cep2
+        request.user.userprofile.save()
         request.session["frete"] = 20
+        return HttpResponseRedirect(reverse("carrinho"))
+
+def pagamento_endereço(request):
+    if request.user.userprofile.cep != None:
+        try:
+            cep = request.user.userprofile.cep
+            endereço = pycep_correios.consultar_cep(cep)
+        except KeyError:
+            return render(request, "loja/erro.html")
+        except TypeError:
+            return render(request, "loja/erro.html")
+        except CEPInvalido:
+            return render(request, "loja/erro.html")
+        except ExcecaoPyCEPCorreios:
+            return render(request, "loja/erro.html")
+        if endereço['cidade'] == 'Campinas':
+            context = {
+                "rua": endereço['end'],
+                "cep": endereço['cep'],
+                "bairro": endereço['bairro'],
+                "cidade": endereço["cidade"],
+                "uf": endereço["uf"],
+                "log": request.user.is_authenticated,
+                "username": request.user
+            }
+            final_status2 = final_status(request)
+            context.update(final_status2)
+            clear_status(request)
+            return render(request, "loja/endereço.html", context)
+        else:
+            status_code(request, 8)
+            return HttpResponseRedirect(reverse("carrinho"))
+    else:
+        status_code(request, 8)
         return HttpResponseRedirect(reverse("carrinho"))

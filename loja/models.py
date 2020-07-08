@@ -47,6 +47,9 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cpf = models.CharField(max_length=16)
     celular = models.CharField(max_length=16, null=True)
+    cep = models.CharField(max_length=16, null=True, blank=True)
+    endereço = models.CharField(max_length=2048, null=True, blank=True)
+
 
 class Descontos(models.Model):
     Cupom = models.CharField(max_length=128)

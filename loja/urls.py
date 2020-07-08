@@ -16,6 +16,7 @@ urlpatterns = [
     path("loja/carrinho/limpar", views.clear_cart, name="limpar_carrinho"),
     path("loja/carrinho/cupom/aplicar", views.cupom_desconto, name="cupom"),
     path("loja/carrinho/cpf/verificar", views.check_cep, name="conferir_cep"),
+    path("pedido/endereço/pagamento", views.pagamento_endereço, name="pagamento_endereço"),
     path("loja/", views.loja_principal, name="loja"),
     path("pedido/finalizar", views.place_order, name="finalizar_pedido"),
     path("loja/procurar/", views.pesquisa, name="pesquisa"),
