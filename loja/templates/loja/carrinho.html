@@ -58,8 +58,6 @@
             <div class="subtotal">
                 VALOR DOS PRODUTOS: RS{{ total_produtos }}
             </div>
-
-            <a href="{% url 'pagamento_endereço' %}">Finalizar Pedido!</a>
         </div>
         <div class="post_itens">
         <div class="preços">
@@ -135,5 +133,6 @@
             </div>
         </div>
         </div>
+        <div class="finalizar_compra"><a href="{% url 'endereço' %}"><button class="limpar">Finalizar compra!</button></a></div>
     </div>
 {% endblock %}

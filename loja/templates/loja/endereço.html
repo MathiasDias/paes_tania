@@ -6,20 +6,45 @@
 
 {% block body %}
 <div class="blocos" style="flex-direction: column; justify-content: flex-start;">
-    <form method="get" action=".">
-        <label>Cep:
-            <input name="cep" type="text" id="cep" value="{{cep}}" size="10" maxlength="9" onblur="pesquisacep(this.value);" required/></label><br />
-        <label>Rua:
-        <input name="rua" type="text" id="rua" size="60"  value="{{rua}}" readonly required/></label><br />
-        <label>Bairro:
-        <input name="bairro" type="text" id="bairro" size="40"  value="{{bairro}}" readonly required/></label><br />
-        <label>Cidade:
-        <input name="cidade" type="text" id="cidade" size="40"  value="{{cidade}}" readonly required/></label><br />
-        <label>Estado:
-        <input name="uf" type="text" id="uf" size="2" value="{{uf}}" readonly required/></label><br />
-        <label>Número:
-        <input name="cidade" type="text" id="cidade" size="40"  value="{{cidade}}" readonly required/></label><br />
-    </form>
-</div>
+    <div class="endereço">
+        <div class="bloco_preços">
+            <div class="titulo_perfil">
+                ENDEREÇO
+            </div>
+        </div>
+        <div class="perfil_info">
+            <form method="post" action="{% url 'salvar_endereço' %}">
+                {% csrf_token %}
+                <div class="info_endereço">
+                    <strong class="laranja">CEP:</strong>
+                    <br><input name="cep" type="text" id="cep" value="{{cep}}" size="10" maxlength="9" onblur="pesquisacep(this.value);" required/>
+                </div>
+                <div class="info_endereço">
+                    <strong class="laranja">Rua:</strong>
+                    <br><input name="rua" type="text" id="rua" size="60"  value="{{rua}}" readonly required/>
+                </div>
+                <div class="info_endereço">
+                    <strong class="laranja">Número:</strong>
+                    <br><input name="número" type="text" id="número" size="40" required/>
+                </div>
+                <div class="info_endereço">
+                    <strong class="laranja">Bairro:</strong>
+                    <br><input name="bairro" type="text" id="bairro" size="40"  value="{{bairro}}" readonly required/>
+                </div>
+                <div class="info_endereço">
+                    <strong class="laranja">Cidade:</strong>
+                    <br><input name="cidade" type="text" id="cidade" size="40"  value="{{cidade}}" readonly required/>
+                </div>
+                <div class="info_endereço">
+                    <strong class="laranja">Estado:</strong>
+                    <br><input name="uf" type="text" id="uf" size="2" value="{{uf}}" readonly required/>
+                </div>
+
+        </div>
+    </div>
+                <div class="finalizar_compra">
+                    <input class="limpar" type="submit" value="Prosseguir para pagamento" >
+                </div>
+            </form>
 <script src="{% static 'cep.js' %}"></script>
 {% endblock %}

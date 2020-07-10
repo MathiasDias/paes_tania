@@ -463,7 +463,7 @@ def place_order(request):
             print(quantidades5)
             nome = request.user.first_name + " " + request.user.last_name
             cpf = request.user.userprofile.cpf
-            endereço = "Rua Alcides de Godoy, 325"
+            endereço = request.user.userprofile.endereço
             pedido = Pedidos.objects.create(Nome_do_cliente=nome, Quantidades=quantidades5, Preço_total=total, Cpf_cliente=cpf, Endereço_cliente=endereço, Status='Pedido Feito')
             pedido.Items.add(*produtos_2)
         except KeyError:
@@ -492,29 +492,33 @@ def cupom_desconto(request):
     return HttpResponseRedirect(reverse("carrinho"))
 
 def check_cep(request):
-    try:
-        cep = request.POST["cep"]
-        cep2 = cep.replace("-","")
-        endereço = pycep_correios.consultar_cep(cep2)
-    except KeyError:
-        return render(request, "loja/erro.html")
-    except TypeError:
-        return render(request, "loja/erro.html")
-    except CEPInvalido:
-        return render(request, "loja/erro.html")
-    except ExcecaoPyCEPCorreios:
-        return render(request, "loja/erro.html")
-    if endereço['cidade'] != 'Campinas':
-        status_code(request, 8)
-        return HttpResponseRedirect(reverse("carrinho"))
+    if request.user.is_authenticated:
+        try:
+            cep = request.POST["cep"]
+            cep2 = cep.replace("-","")
+            endereço = pycep_correios.consultar_cep(cep2)
+        except KeyError:
+            return render(request, "loja/erro.html")
+        except TypeError:
+            return render(request, "loja/erro.html")
+        except CEPInvalido:
+            return render(request, "loja/erro.html")
+        except ExcecaoPyCEPCorreios:
+            return render(request, "loja/erro.html")
+        if endereço['cidade'] != 'Campinas':
+            status_code(request, 8)
+            return HttpResponseRedirect(reverse("carrinho"))
+        else:
+            request.user.userprofile.cep = cep2
+            request.user.userprofile.save()
+            request.session["frete"] = 20
+            return HttpResponseRedirect(reverse("carrinho"))
     else:
-        request.user.userprofile.cep = cep2
-        request.user.userprofile.save()
-        request.session["frete"] = 20
+        status_code(request, 6)
         return HttpResponseRedirect(reverse("carrinho"))
 
-def pagamento_endereço(request):
-    if request.user.userprofile.cep != None:
+def endereço(request):
+    if request.session["frete"] != 0:
         try:
             cep = request.user.userprofile.cep
             endereço = pycep_correios.consultar_cep(cep)
@@ -546,3 +550,25 @@ def pagamento_endereço(request):
     else:
         status_code(request, 8)
         return HttpResponseRedirect(reverse("carrinho"))
+
+def salvar_endereço(request):
+    try:
+        cep = request.POST["cep"]
+        rua = request.POST["rua"]
+        número = request.POST["número"]
+        bairro = request.POST["bairro"]
+        cidade = request.POST["cidade"]
+        uf = request.POST["uf"]
+        endereço = rua + ", " + número + " - " + bairro + " - " + cep + " - " + cidade + "/" + uf
+    except KeyError:
+        return render(request, "loja/erro.html")
+    except TypeError:
+        return render(request, "loja/erro.html")
+    if cidade != "Campinas":
+        status_code(request, 8)
+        print(cidade)
+        return HttpResponseRedirect(reverse("carrinho"))
+    else:
+        request.user.userprofile.endereço = endereço
+        request.user.userprofile.save()
+        return place_order(request)
