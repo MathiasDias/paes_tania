@@ -8,9 +8,11 @@
     <div class="pre blocos" style="min-height:0;">
         <ul class="local">
             <li><a class="local_item" href="{% url 'index' %}"><strong>massaroca.com.br</strong></a></li>
-            {% if cat == None %}
-            {% else %}
+            {% if cat != None %}
             <li class="local_item"><strong>{{ cat }}</strong></li>
+            {% elif pesquisa != None %}
+            <li class="local_item"><strong>{{ pesquisa }}</strong></li>
+            {% else %}
             {% endif %}
         </ul>
     </div>
@@ -18,21 +20,32 @@
         <div class="principal">
             <div class="ferramentas">
                 <div class="titulo">
-                    {% if cat == None %}
-                    Loja
+                    {% if cat != None %}
+                    {{cat}}
+                    {% elif pesquisa != None %}
+                    Pesquisa: "{{ pesquisa }}"
                     {% else %}
-                    {{ cat }}
+                    Loja
                     {% endif %}
                     <div class="resultados">
                         ({{num}} resultado(s) encontrado(s))
                     </div>
                 </div>
                 <div class="ordenar">
-                    <select id="ordem" onchange="location = this.value;" class="escolher-ordem" data-role="sorter">
-                        <option value="{% url 'loja_ordem' 'Nome' %}">Nome</option>
-                        <option value="{% url 'loja_ordem' 'Preço' %}">Menor preço</option>
-                        <option value="{% url 'loja_ordem' '-Preço' %}">Maior preço</option>
-                    </select>
+                    {% if cat != None %}
+                        <select id="ordem" onchange="location = this.value;" class="escolher-ordem" data-role="sorter">
+                            <option value="{% url 'categoria' categoria=cat ordem='Nome' num_pagina=num_pagina %}">Nome</option>
+                            <option value="{% url 'categoria' categoria=cat ordem='Preço' num_pagina=num_pagina %}">Menor preço</option>
+                            <option value="{% url 'categoria' categoria=cat ordem='-Preço' num_pagina=num_pagina %}">Maior preço</option>
+                        </select>
+                    {% elif pesquisa != None %}
+                    {% else %}
+                        <select id="ordem" onchange="location = this.value;" class="escolher-ordem" data-role="sorter">
+                            <option value="{% url 'loja_ordem' ordem='Nome' num_pagina=num_pagina %}">Nome</option>
+                            <option value="{% url 'loja_ordem' ordem='Preço' num_pagina=num_pagina %}">Menor preço</option>
+                            <option value="{% url 'loja_ordem' ordem='-Preço' num_pagina=num_pagina %}">Maior preço</option>
+                        </select>
+                    {% endif %}
                 </div>
             </div>
                 <div class="conteudo">
@@ -40,12 +53,15 @@
                         {% for produto in produtos %}
                         <li>
                             <div class="prod">
-                                {% if cat == None %}
-                                <img src="../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto_top"/>
-                                <img src="../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" class="produto_foto_bottom"/>
-                                {% else %}
+                                {% if cat != None %}
+                                <img src="../../../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto_top"/>
+                                <img src="../../../../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" class="produto_foto_bottom"/>
+                                {% elif pesquisa != None %}
                                 <img src="../../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto_top"/>
                                 <img src="../../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" class="produto_foto_bottom"/>
+                                {% else %}
+                                <img src="../{{produto.Fotos.url|slice:'5:'}}" alt="produto" class="produto_foto_top"/>
+                                <img src="../{{produto.Fotos_2.url|slice:'5:'}}" alt="produto" class="produto_foto_bottom"/>
                                 {% endif %}
                                 <div class="produto_texto">
                                     <h2 class="produto_titulo"><a class="redir_item" href="{% url 'produto' produto.id %}">{{produto.Nome}}</a></h2>
@@ -69,6 +85,22 @@
                         {% endfor %}
                     </div>
                 </div>
+                <div class="ferramentas center" style="margin-top:15px;">
+                {% if cat != None %}
+                    {% for pagina in paginas %}
+                        <div class="num_pagina">
+                            <a class="redir" href="{% url 'categoria' categoria=cat ordem=ordem num_pagina=pagina %}">{{pagina}}</a>
+                        </div>
+                    {% endfor %}
+                {% elif pesquisa != None %}
+                {% else %}
+                    {% for pagina in paginas %}
+                        <div class="num_pagina">
+                            <a class="redir" style="color:black" href="{% url 'loja_ordem' ordem=ordem num_pagina=pagina %}">{{pagina}}</a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
             </div>
         <div class="barracategoria">
                 <div class="categorias">
@@ -79,7 +111,7 @@
                         </li>
                         {% for categoria in categorias %}
                         <li class="item">
-                            <a class="redir" href="{% url 'categoria' categoria %}">{{ categoria }}</a>
+                            <a class="redir" href="{% url 'categoria' categoria=categoria num_pagina=1 ordem='Nome' %}">{{ categoria }}</a>
                         </li>
                         {% endfor %}
                     </ol>

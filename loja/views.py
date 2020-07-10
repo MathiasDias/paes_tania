@@ -257,17 +257,28 @@ def loja_produto(request, produto_id):
     clear_status(request)
     return render(request, "loja/produto.html", context)
 
-def loja_principal(request, ordem="Nome"):
+def loja_principal(request, ordem="Nome", num_pagina=1):
     try:
         produtos = Produtos.objects.order_by(ordem)
         num = Produtos.objects.order_by(ordem).count()
         categorias = Categorias.objects.all()
     except KeyError:
         return render(request, "loja/erro.html")
+    if num > 16:
+        pags = int(num/16) + 1
+    else:
+        pags = 1
+    paginas = []
+    for n in range(1, pags + 1):
+        paginas.append(n)
+    produtos = produtos[(num_pagina - 1)*16:16*num_pagina]
     context = {
         "produtos": produtos,
         "categorias": categorias,
         "num": num,
+        "ordem": ordem,
+        "paginas": paginas,
+        "num_pagina": num_pagina,
         "log": request.user.is_authenticated,
         "username": request.user
     }
@@ -276,10 +287,10 @@ def loja_principal(request, ordem="Nome"):
     clear_status(request)
     return render(request, "loja/loja.html", context)
 
-def loja_categoria(request, categoria):
+def loja_categoria(request, categoria, num_pagina=1, ordem="Nome"):
     try:
         categoria_id = Categorias.objects.get(Nome=categoria).id
-        produtos = Produtos.objects.filter(Categoriateste=categoria_id)
+        produtos = Produtos.objects.filter(Categoriateste=categoria_id).order_by(ordem)
         num = Produtos.objects.filter(Categoriateste=categoria_id).count()
         categorias = Categorias.objects.all()
     except KeyError:
@@ -288,11 +299,22 @@ def loja_categoria(request, categoria):
         return render(request, "loja/erro.html")
     except Categorias.DoesNotExist:
         return render(request, "loja/erro.html")
+    if num > 16:
+        pags = int(num/16) + 1
+    else:
+        pags = 1
+    paginas = []
+    for n in range(1, pags + 1):
+        paginas.append(n)
+    produtos = produtos[(num_pagina - 1)*16:16*num_pagina]
     context = {
-        "produtos": produtos,
         "cat": categoria,
-        "num": num,
+        "produtos": produtos,
         "categorias": categorias,
+        "num": num,
+        "ordem": ordem,
+        "paginas": paginas,
+        "num_pagina": num_pagina,
         "log": request.user.is_authenticated,
         "username": request.user
     }
@@ -438,9 +460,9 @@ def pesquisa(request):
         return render(request, "loja/erro.html")
     context = {
         "produtos": produtos,
-        "cat": pesquisa,
-        "num": num,
+        "pesquisa": pesquisa,
         "categorias": categorias,
+        "num": num,
         "log": request.user.is_authenticated,
         "username": request.user
     }
