@@ -8,7 +8,7 @@
 <div class="pre blocos" style="min-height:0;">
     <ul class="local">
         <li><a class="local_item" href="{% url 'index' %}"><strong>massaroca.com.br</strong></a></li>
-        <li><a class="local_item" href="{% url 'categoria' produto.Categoriateste %}"><strong>{{ produto.Categoriateste }}</strong></a></li>
+        <li><a class="local_item" href="{% url 'categoria' categoria=produto.Categoriateste num_pagina=1 ordem='Nome' %}"><strong>{{ produto.Categoriateste }}</strong></a></li>
         <li class="local_item"><strong>{{ produto.Nome }}</strong></li>
     </ul>
 </div>

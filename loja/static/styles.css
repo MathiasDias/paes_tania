@@ -45,6 +45,10 @@ body {
     border-radius: 12px;
 }
 
+.perfil_foto {
+    height: 40px;
+}
+
 #login {
     position: absolute;
     width: 170px;
@@ -117,7 +121,7 @@ body {
 }
 
 .user {
-    left: 83%;
+    left: 84%;
     padding: 3px;
     font-size:15px;
     font-family: monospace;
@@ -135,6 +139,9 @@ body {
     top: 10px;
     padding: 3px;
     font-size: 15px;
+    border-radius: 4px;
+    border: 1px solid black;
+    box-shadow: 1px 1px lightgrey;
 }
 
 

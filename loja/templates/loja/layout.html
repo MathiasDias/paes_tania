@@ -26,10 +26,11 @@
             <div class="user">
                 {% if log == True %}
                 <div class="dropdown">
-                    <button class="btn dropdown-toggle logado" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ username.first_name }} {{ username.last_name }} {{ username.email }}</button>
+                    <button class="btn dropdown-toggle logado" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static '/images/perfil.png' %}" alt="perfil" class="perfil_foto"></button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{% url 'pedidos' %}">Meus pedidos</a>
-                            <a class="dropdown-item" href="{% url 'perfil' %}">Meu Perfil</a>
+                            <a class="dropdown-item">Olá, <strong>{{username.first_name}}</strong>!</a>
+                            <a class="dropdown-item" href="{% url 'pedidos' %}">Seus pedidos</a>
+                            <a class="dropdown-item" href="{% url 'perfil' %}">Seu Perfil</a>
                             <a class="dropdown-item" href="{% url 'logout1' %}">Logout <img src="{% static '/images/logout.png' %}" alt="Logout" class="logout"></a>
                         </div>
                 </div>

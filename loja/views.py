@@ -245,6 +245,8 @@ def loja_produto(request, produto_id):
         produto = Produtos.objects.get(pk=produto_id)
     except KeyError:
         return render(request, "loja/erro.html")
+    except TypeError:
+        return render(request, "loja/erro.html")
     except Produtos.DoesNotExist:
         return render(request, "loja/erro.html")
     context = {
