@@ -7,14 +7,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'styles.css' %}"/>
+        <link rel="stylesheet" href="{% static 'aos/aos.css' %}"/>
             <title>{% block title %}Massaroca{% endblock %}</title>
     </head>
     <body>
     <div class="pagina">
         <nav class="nav">
-            <div class="logo">
-                Logo
-            </div>
+            <a href="{% url 'index' %}"><img src="{% static '/images/Logo_massaroca_render.png' %}" alt="Carrinho" class="logo"></a>
             <div class="procura">
                 <form action="{% url 'pesquisa' %}" method="post">
                 {% csrf_token %}
@@ -22,7 +21,7 @@
                     <input type="image"src="{% static '/images/pesquisa.png' %}" alt="Pesquisar" class="botao_pesquisa">
                 </form>
             </div>
-            <a href="{% url 'carrinho' %}"><img src="{% static '/images/shop-cart.png' %}" alt="Carrinho" class="cart"></a>
+            <a href="{% url 'carrinho' %}"><img src="{% static '/images/shop-branco.png' %}" alt="Carrinho" class="cart"></a>
             <div class="user">
                 {% if log == True %}
                 <div class="dropdown">
@@ -161,6 +160,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="{% static 'aos/aos.js' %}"></script>
+        <script>AOS.init();</script>
     </div>
     </body>
 </html>
