@@ -13,29 +13,46 @@
     <body>
     <div class="pagina">
         <nav class="nav">
-            <a href="{% url 'index' %}"><img src="{% static '/images/Logo_massaroca_render.png' %}" alt="Carrinho" class="logo"></a>
-            <div class="procura">
-                <form action="{% url 'pesquisa' %}" method="post">
-                {% csrf_token %}
-                    <input class="pesquisa" name="pesquisa" placeholder="Procurar..." type="text"/>
-                    <input type="image"src="{% static '/images/pesquisa.png' %}" alt="Pesquisar" class="botao_pesquisa">
-                </form>
-            </div>
-            <a href="{% url 'carrinho' %}"><img src="{% static '/images/shop-branco.png' %}" alt="Carrinho" class="cart"></a>
-            <div class="user">
-                {% if log == True %}
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle logado" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static '/images/perfil.png' %}" alt="perfil" class="perfil_foto"></button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item">Olá, <strong>{{username.first_name}}</strong>!</a>
-                            <a class="dropdown-item" href="{% url 'pedidos' %}">Seus pedidos</a>
-                            <a class="dropdown-item" href="{% url 'perfil' %}">Seu Perfil</a>
-                            <a class="dropdown-item" href="{% url 'logout1' %}">Logout <img src="{% static '/images/logout.png' %}" alt="Logout" class="logout"></a>
-                        </div>
+            <div class="container_32">
+                <div class="box_logo">
+                    <a href="{% url 'index' %}"><img src="{% static '/images/Logo_massaroca_render.png' %}" alt="Carrinho" class="logo"></a>
                 </div>
-                {% else %}
-                <button id="login" class="btn botao_login">Entrar/Cadastre-se</button>
-                {% endif %}
+                <div class="procura">
+                    <form action="{% url 'pesquisa' %}" method="post">
+                    {% csrf_token %}
+                        <input class="pesquisa" name="pesquisa" placeholder="Procurar..." type="text"/>
+                        <input type="image"src="{% static '/images/pesquisa.png' %}" alt="Pesquisar" class="botao_pesquisa">
+                    </form>
+                </div>
+            <div class="container_31">
+                <div class="cart">
+                    <a href="{% url 'carrinho' %}"><img src="{% static '/images/shop-branco.png' %}" alt="Carrinho" class="cart_2"></a>
+                </div>
+                <div class="box-sobre">
+                    <div class="sobre">SOBRE</div>
+                </div>
+                <div class="box-contato">
+                    <div class="contato">CONTATO</div>
+                </div>
+                <div class="box-loja">
+                    <div class="loja"><a class="bot_loja" href="{% url 'loja' %}">LOJA</a></div>
+                </div>
+                <div class="user">
+                    {% if log == True %}
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle logado" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static '/images/perfil.png' %}" alt="perfil" class="perfil_foto"></button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item">Olá, <strong>{{username.first_name}}</strong>!</a>
+                                <a class="dropdown-item" href="{% url 'pedidos' %}">Seus pedidos</a>
+                                <a class="dropdown-item" href="{% url 'perfil' %}">Seu Perfil</a>
+                                <a class="dropdown-item" href="{% url 'logout1' %}">Logout <img src="{% static '/images/logout.png' %}" alt="Logout" class="logout"></a>
+                            </div>
+                    </div>
+                    {% else %}
+                    <button id="login" class="btn botao_login">ENTRAR|CADASTRO</button>
+                    {% endif %}
+                </div>
+            </div>
             </div>
         </nav>
         <div class="bg-modal">
@@ -55,11 +72,11 @@
                         <h2>Login:</h2>
                         <input class="login form-control" name="username" placeholder="Usuário" type="text"/>
                         <input class="login form-control" name="password" placeholder="Senha" type="password"/>
-                        <input class="btn botao_login" type="submit" value="Login"/>
+                        <input class="btn botao_login_2" type="submit" value="Login"/>
                     </form>
                     <form action="{% url 'forgot' %}" method='post'>
                         {% csrf_token %}
-                        <input class="btn botao_login" type="submit" value="Esqueci minha senha"/>
+                        <input class="btn botao_login_2" type="submit" value="Esqueci minha senha"/>
                     </form>
             </div>
         </div>
@@ -86,7 +103,7 @@
                     <input class="register form-control" minlength="15" maxlength="15" name="celular" placeholder="Celular" type="text" onkeypress="$(this).mask('(00) 0000-00000')" required/>
                     <input class="register form-control" minlength="14" maxlength="14" name="cpf" placeholder="CPF" type="text" onkeypress="$(this).mask('000.000.000-00');" required/>
                     <input class="register form-control" minlength="6" name="password" placeholder="Senha" type="password" required/>
-                    <input class="register form-control" class="btn botao_login" type="submit" value="Registrar"/>
+                    <input class="register form-control" class="btn botao_login_2" type="submit" value="Registrar"/>
                 </form>
             </div>
         </div>
