@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'styles.css' %}"/>
         <link rel="stylesheet" href="{% static 'aos/aos.css' %}"/>
+        <link rel="shortcut icon" type="image/png" href="{% static '/images/Logo_massaroca.jpeg' %}"/>
             <title>{% block title %}Massaroca{% endblock %}</title>
     </head>
     <body>
@@ -25,33 +26,39 @@
                     </form>
                 </div>
             <div class="container_31">
+                <div class="box-sobre">
+                    <div class="loja"><a class="bot_loja" href="{% url 'categoria' categoria='Massas' ordem='Nome' num_pagina='1' %}">MASSAS</a></div>
+                </div>
+                <div class="box-sobre">
+                    <div class="loja"><a class="bot_loja" href="{% url 'categoria' categoria='Pães' ordem='Nome' num_pagina='1' %}">PÃES</a></div>
+                </div>
+                <div class="box-contato">
+                    <div class="loja"><a class="bot_loja" href="{% url 'categoria' categoria='Guloseimas' ordem='Nome' num_pagina='1' %}">GULOSEIMAS</a></div>
+                </div>
+                <div class="box-loja">
+                    <div class="loja"><a class="bot_loja" href="{% url 'loja' %}">ENCOMENDAS</a></div>
+                </div>
                 <div class="cart">
                     <a href="{% url 'carrinho' %}"><img src="{% static '/images/shop-branco.png' %}" alt="Carrinho" class="cart_2"></a>
                 </div>
-                <div class="box-sobre">
-                    <div class="sobre">SOBRE</div>
-                </div>
-                <div class="box-contato">
-                    <div class="contato">CONTATO</div>
-                </div>
-                <div class="box-loja">
-                    <div class="loja"><a class="bot_loja" href="{% url 'loja' %}">LOJA</a></div>
-                </div>
-                <div class="user">
                     {% if log == True %}
+                <div class="user">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle logado" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static '/images/perfil.png' %}" alt="perfil" class="perfil_foto"></button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item">Olá, <strong>{{username.first_name}}</strong>!</a>
                                 <a class="dropdown-item" href="{% url 'pedidos' %}">Seus pedidos</a>
                                 <a class="dropdown-item" href="{% url 'perfil' %}">Seu Perfil</a>
                                 <a class="dropdown-item" href="{% url 'logout1' %}">Logout <img src="{% static '/images/logout.png' %}" alt="Logout" class="logout"></a>
                             </div>
                     </div>
+                    </div>
                     {% else %}
+                    <div class="user_2">
                     <button id="login" class="btn botao_login">ENTRAR|CADASTRO</button>
+                    </div>
                     {% endif %}
-                </div>
+
             </div>
             </div>
         </nav>
@@ -161,7 +168,7 @@
         </div>
         <div class="barinf">
             <div class="baritem">
-                Logo
+                <img src="{% static '/images/Logo_massaroca_render.png' %}" alt="Massaroca" class="logobar">
             </div>
             <div class="baritem">
                 Email
