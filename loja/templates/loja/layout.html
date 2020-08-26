@@ -36,7 +36,7 @@
                     <div class="loja"><a class="bot_loja" href="{% url 'categoria' categoria='Guloseimas' ordem='Nome' num_pagina='1' %}">GULOSEIMAS</a></div>
                 </div>
                 <div class="box-loja">
-                    <div class="loja"><a class="bot_loja" href="{% url 'loja' %}">ENCOMENDAS</a></div>
+                    <div class="loja"><a class="bot_loja" href="{% url 'loja' %}">LOJA</a></div>
                 </div>
                 <div class="cart">
                     <a href="{% url 'carrinho' %}"><img src="{% static '/images/shop-branco.png' %}" alt="Carrinho" class="cart_2"></a>
@@ -171,12 +171,17 @@
                 <img src="{% static '/images/Logo_massaroca_render.png' %}" alt="Massaroca" class="logobar">
             </div>
             <div class="baritem">
-                Email
+                <div class="barsub">ENCOMENDAS</div>
+                <div class="barsub">LOJA</div>
+                <div class="barsub">CARRINHO</div>
+                <div class="barsub">QUEM SOMOS</div>
+                <div class="barsub">FALE CONOSCO</div>
             </div>
             <div class="baritem">
-                <img src="{% static '/images/instagram.png' %}" alt="Instagram" class="redebar">
-                <img src="{% static '/images/facebook.png' %}" alt="Facebook" class="redebar">
-                <img src="{% static '/images/linkedin.png' %}" alt="LinkedIn" class="redebar">
+                <img src="{% static '/images/branco/instagram.png' %}" alt="Instagram" class="redebar">
+                <img src="{% static '/images/branco/facebook.png' %}" alt="Facebook" class="redebar">
+                <img src="{% static '/images/branco/linkedin.png' %}" alt="LinkedIn" class="redebar">
+                <img src="{% static '/images/branco/email.png' %}" alt="Email" class="redebar">
             </div>
         </div>
         <script src="{% static 'javascript.js' %}"></script>
