@@ -337,7 +337,9 @@ div {
 .quemsomos {
     height: 400px;
     width: 100%;
+    background-color: white;
 }
+
 
 .foto {
     height: 350px;
@@ -347,8 +349,32 @@ div {
     display: block;
     position: relative;
     top: 50%;
-    left: 100px;
-    transform: translate(0, -50%);
+    transform: translate(0, 25px);
+}
+
+.foto_2 {
+    height: 350px;
+    width: 350px;
+    background-color: lightgrey;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    top: 50%;
+    left: 550px;
+    transform: translate(0, 25px);
+}
+
+.bloco_qs {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    display: block;
+    width: 950px;
+}
+
+.foto_qs {
+    width: 100%;
+    height: calc(100vh - 115px);
 }
 
 .textoqs {
@@ -357,7 +383,14 @@ div {
     width: 500px;
     top: 50%;
     left: 400px;
-    transform: translate(0, -50%);
+    transform: translate(0, calc(-50% - 33px));
+}
+
+.textoqs_2 {
+    position: relative;
+    height: 250px;
+    width: 500px;
+    transform: translate(0, calc(-100% - 51px));
 }
 
 .redebar {
