@@ -171,14 +171,15 @@
                 <img src="{% static '/images/Logo_massaroca_render.png' %}" alt="Massaroca" class="logobar">
             </div>
             <div class="baritem">
-                <div class="barsub">ENCOMENDAS</div>
-                <div class="barsub">LOJA</div>
-                <div class="barsub">CARRINHO</div>
-                <div class="barsub">QUEM SOMOS</div>
-                <div class="barsub">FALE CONOSCO</div>
+                <a class="bot_loja" href="https://api.whatsapp.com/message/EIDRSPO6B7MQB1" target="_blank"><div class="barsub">ENCOMENDAS</div></a>
+                <div class="barsub"><a class="bot_loja" href="{% url 'loja' %}">LOJA</a></div>
+                <div class="barsub"><a class="bot_loja" href="{% url 'carrinho' %}">CARRINHO</a></div>
+                <div class="barsub"><a class="bot_loja" href="{% url 'quemsomos' %}">QUEM SOMOS</a></div>
+                <div class="barsub"><a class="bot_loja" href="{% url 'loja' %}">FALE CONOSCO</a></div>
             </div>
             <div class="baritem">
-                <img src="{% static '/images/branco/instagram.png' %}" alt="Instagram" class="redebar">
+                <a href="https://api.whatsapp.com/message/EIDRSPO6B7MQB1" target="_blank"><img src="{% static '/images/branco/whatsapp.png' %}" alt="Whatsapp" class="redebar"></a>
+                <a href="https://www.instagram.com/massaroca_padaria/" target="_blank"><img src="{% static '/images/branco/instagram.png' %}" alt="Instagram" class="redebar"></a>
                 <img src="{% static '/images/branco/facebook.png' %}" alt="Facebook" class="redebar">
                 <img src="{% static '/images/branco/linkedin.png' %}" alt="LinkedIn" class="redebar">
                 <img src="{% static '/images/branco/email.png' %}" alt="Email" class="redebar">
