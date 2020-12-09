@@ -382,7 +382,8 @@ div {
 
 .foto_qs {
     width: 100%;
-    height: calc(100vh - 115px);
+    margin-top: -115px;
+    height: 100vh;
 }
 
 .textoqs {
